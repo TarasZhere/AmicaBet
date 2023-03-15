@@ -1,1 +1,2 @@
 FLASK_APP=amicabet.py
+FLASK_DEBUG=1
