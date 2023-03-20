@@ -1,4 +1,6 @@
 import functools
+import re
+from amica.utils import validEmail, invalidPassword
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -10,45 +12,60 @@ from amica.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route('/sign-in', methods=['GET','POST'])
+def signin():
+    return render_template('auth/sign-in.html')
+
+@bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        db = get_db()
+        email = request.form.get('email')
+        password = request.form.get('password')
+        cPassword = request.form.get('confirmPassword')
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+
         error = None
 
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
+        if not validEmail(email):
+            error = "Enter a valid Email"
+
+        elif invalidPassword(password):
+            error = invalidPassword(password)
+
+        elif not password == cPassword:
+            error = "Passwords do not match"
 
         if error is None:
             try:
+                db = get_db()       
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (email, password, fname, lname) VALUES (?, ?, ?, ?)",
+                    (email, generate_password_hash(password), fname, lname),
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {username} is already registered."
+                
+                error = f"Email {email} is already registered."
             else:
-                return redirect(url_for("auth.login"))
+                return render_template('landing/landing.html', activeModalLogin=True, email=email)
 
         flash(error)
 
-    return render_template('auth/register.html')
+    if error:
+        return render_template('landing/landing.html', activeModalRegister=True)
+    return render_template('landing/landing.html')
 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+            'SELECT * FROM user WHERE username = ?', (email,)
         ).fetchone()
 
         if user is None:
@@ -80,7 +97,7 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('test'))
+    return redirect(url_for('landing'))
 
 
 def login_required(view):

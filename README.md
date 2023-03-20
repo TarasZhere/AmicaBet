@@ -2,6 +2,9 @@
 
 Read the docs to know more about the application. Check `./docs/AmicaBet.md`
 
+## Activate enviroment
+`. venv/bin/activate`
+
 ## Install requirements
 `pip install -e .`
 
@@ -16,5 +19,3 @@ first you need to initializate the database. Like so:
 then ...
 
 `flask --app amica run --debug`
-
-## Start

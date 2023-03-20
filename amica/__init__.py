@@ -1,6 +1,6 @@
 import os
-
-from flask import Flask, render_template
+from amica.db import get_db
+from flask import Flask, render_template, request, url_for, redirect
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -26,6 +26,11 @@ def create_app(test_config=None):
     @app.route('/test')
     def test():
         return render_template('test.html')
+    
+    @app.route('/')
+    def landing():
+        return render_template('landing/landing.html')
+    
     
     from . import db
     db.init_app(app)

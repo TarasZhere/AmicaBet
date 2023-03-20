@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    AmicaBet
+{% endblock %}
+
+{% block navbar %}
+
+<nav class="navbar bg-dark">
+    <div class="container-sm">
+        <a class="navbar-brand">
+            <img src="{{url_for('static', filename='AmicaBet.svg')}}" alt="AmicaBet" height="24">
+        </a>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#signin" class="btn btn-outline-primary" >Sign-in</button>
+    </div>
+</nav>
+
+{% endblock %}
+
+{% block body %}
+    <div class="modal fade" id="signin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Sign in</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="{{url_for('auth.login')}}" method="post">
+                        <div class="mb-3 row">
+                            <div class="col-3">
+                                <label class=" form-label" for="email">Email</label>
+                            </div>
+                            <div class="col-9">
+                                <input value="{{email}}" class=" form-control" id="email" name="email" class="mb-3" type="email" required placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-3">
+                                <label class="form-label" for="password">Password</label>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control" id="password" name="password" class="mb-3" type="password" required placeholder="Password">
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary" type="submit">Sign in</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="toggleRegister" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#register"> Register instead </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="register" tabindex="-1" aria-hidden="False">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Register</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% for message in get_flashed_messages() %}
+                        <div class="flash mb-3" style="color:red"> *{{ message }}</div>
+                    {% endfor %}
+                    <form action="{{url_for('auth.register')}}" method="post">
+                        <div class="mb-3 row">
+                            <div class="col-4">
+                                <label class="form-label" style="width:100%" for="fname">First Name</label>
+                            </div>
+                            <div class="col-8">
+                                <input class=" form-control" id="fname" name="fname" class="mb-3" type="text" required placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-4">
+                                <label class="form-label" style="width:100%" for="lname">Last Name</label>
+                            </div>
+                            <div class="col-8">
+                                <input class=" form-control" id="lname" name="lname" class="mb-3" type="text" required placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-12">
+                                <label class="col-3 form-label" style="width:100%" for="email">Email</label>
+                            </div>
+                            <div class="col-12">
+                                <input class="col-9 form-control" id="Remail" name="email" class="mb-3" type="email" required placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-6">
+                                <label class="form-label" style="width:100%" for="password">Password</label>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label" style="width:100%" for="password">Confirm Password</label>
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" id="Rpassword" name="password" class="mb-3" type="password" required placeholder="Password">
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" id="confpassword" name="confirmPassword" class="mb-3" type="password" required placeholder="Confirm Password">
+                            </div>
+                            
+                        </div>
+                        <button class="btn btn-outline-primary" type="submit">Register</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#signin"> Sign in instead </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Body</h1>
+    </div>
+
+    {% if activeModalRegister %}
+        <script type="text/javascript">
+            $(window).on('load', function() {
+                $('#register').modal('show');
+            });
+        </script>
+    {% endif %}
+    {% if activeModalLogin %}
+        <script type="text/javascript">
+            $(window).on('load', function() {
+                $('#signin').modal('show');
+            });
+        </script>
+        
+    {% endif %}
+{% endblock %}
