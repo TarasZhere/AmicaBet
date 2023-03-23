@@ -21,21 +21,18 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # a simple page that says hello
-    @app.route('/test')
-    def test():
-        return render_template('test.html')
     
     @app.route('/')
     def landing():
         return render_template('landing/landing.html')
-    
     
     from . import db
     db.init_app(app)
 
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import user
+    app.register_blueprint(user.bp)
 
     return app

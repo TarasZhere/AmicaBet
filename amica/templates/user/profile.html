@@ -1,0 +1,19 @@
+{% extends 'user.layout.html' %} {% block title %} Profile - AmicaBet {%
+endblock %} {% block main %} {% if user %}
+<h1 class="">{{user['fname']}}, {{user['lname']}}</h1>
+<div class="container-sm">
+	<p>
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
+		vero, repellat vel fuga quaerat ad. Soluta voluptates, accusamus
+		voluptatum esse sequi illum neque quod excepturi doloribus iure, sunt
+		facere, debitis impedit temporibus qui mollitia earum? Maiores dolores
+		ipsam vel libero ipsum laborum qui saepe, enim adipisci possimus
+		quisquam sint at vitae excepturi fugiat quidem dolore consequatur
+		distinctio reiciendis quaerat magnam atque, placeat unde voluptas!
+		Eligendi maiores consequuntur animi qui corrupti modi rerum ipsam eos
+		eveniet placeat esse ullam, sapiente incidunt minus odit soluta aperiam
+		laboriosam totam, quidem quasi recusandae nulla magni quaerat. Quisquam
+		totam recusandae, voluptas quam in eos repellendus.
+	</p>
+</div>
+{% endif %} {% endblock %}

@@ -1,5 +1,5 @@
 import functools
-import re
+
 from amica.utils import validEmail, invalidPassword
 
 from flask import (
@@ -26,6 +26,7 @@ def register():
         lname = request.form.get('lname')
 
         error = None
+        db = get_db()  
 
         if not validEmail(email):
             error = "Enter a valid Email"
@@ -37,15 +38,13 @@ def register():
             error = "Passwords do not match"
 
         if error is None:
-            try:
-                db = get_db()       
+            try:  
                 db.execute(
                     "INSERT INTO user (email, password, fname, lname) VALUES (?, ?, ?, ?)",
                     (email, generate_password_hash(password), fname, lname),
                 )
                 db.commit()
-            except db.IntegrityError:
-                
+            except:
                 error = f"Email {email} is already registered."
             else:
                 return render_template('landing/landing.html', activeModalLogin=True, email=email)
@@ -65,7 +64,7 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (email,)
+            'SELECT * FROM user WHERE email = ?', (email,)
         ).fetchone()
 
         if user is None:
@@ -76,11 +75,11 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('test'))
+            return redirect(url_for('user.homepage'))
 
         flash(error)
 
-    return render_template('auth/login.html')
+    return render_template('landing/landing.html', activeModalLogin=True)
 
 @bp.before_app_request
 def load_logged_in_user():

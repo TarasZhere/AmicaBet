@@ -1,138 +1,412 @@
 {% extends 'base.html' %}
-
-{% block title %}
-    AmicaBet
-{% endblock %}
-
+<!-- title -->
+{% block title %} AmicaBet {% endblock %}
+<!-- navbar -->
 {% block navbar %}
+<!-- animatoins -->
+<style>
+	#logo:hover {
+		transform: scale(1.1) rotate(-3deg);
+	}
+	#logo {
+		transition: transform 0.2s ease-in-out;
+	}
+</style>
 
-<nav class="navbar bg-dark">
-    <div class="container-sm">
-        <a class="navbar-brand">
-            <img src="{{url_for('static', filename='AmicaBet.svg')}}" alt="AmicaBet" height="24">
-        </a>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#signin" class="btn btn-outline-primary" >Sign-in</button>
-    </div>
-</nav>
+<header>
+	<div class="px-3 py-2 text-bg-dark">
+		<div class="container">
+			<div
+				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+			>
+				<a
+					id="logo"
+					href="{{url_for('landing')}}"
+					class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none"
+				>
+					<img
+						height="34"
+						src="{{url_for('static', filename='imgs/AmicaBet.svg')}}"
+						alt="AmicaBet"
+					/>
+				</a>
 
+				<ul
+					class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small"
+				>
+					<li>
+						<a href="#" class="nav-link text-secondary">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								class="bi d-block mx-auto mb-1"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z"
+								/>
+							</svg>
+							Home
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								class="bi d-block mx-auto mb-1"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"
+								/>
+								<path
+									fill-rule="evenodd"
+									d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"
+								/>
+							</svg>
+							Dashboard
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								class="bi d-block mx-auto mb-1"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"
+								/>
+								<path
+									d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"
+								/>
+							</svg>
+							Orders
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								class="bi d-block mx-auto mb-1"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M6 9a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 9zM3.854 4.146a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2z"
+								/>
+								<path
+									d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h12z"
+								/>
+							</svg>
+							Products
+						</a>
+					</li>
+					<li>
+						<a href="#" class="nav-link text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								class="bi d-block mx-auto mb-1"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"
+								/>
+							</svg>
+							Customers
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="px-3 py-2 border-bottom mb-3">
+		<div class="container d-flex flex-wrap justify-content-center">
+			<form
+				class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto"
+				role="search"
+			>
+				<input
+					type="search"
+					class="form-control"
+					placeholder="Search..."
+					aria-label="Search"
+					disabled
+				/>
+			</form>
+
+			<div class="text-end">
+				<button type="button" class="btn btn-light text-dark me-2">
+					Login
+				</button>
+				<button type="button" class="btn btn-primary">Sign-up</button>
+			</div>
+		</div>
+	</div>
+</header>
 {% endblock %}
-
+<!-- Body -->
 {% block body %}
-    <div class="modal fade" id="signin" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Sign in</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
 
-                    <form action="{{url_for('auth.login')}}" method="post">
-                        <div class="mb-3 row">
-                            <div class="col-3">
-                                <label class=" form-label" for="email">Email</label>
-                            </div>
-                            <div class="col-9">
-                                <input value="{{email}}" class=" form-control" id="email" name="email" class="mb-3" type="email" required placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-3">
-                                <label class="form-label" for="password">Password</label>
-                            </div>
-                            <div class="col-9">
-                                <input class="form-control" id="password" name="password" class="mb-3" type="password" required placeholder="Password">
-                            </div>
-                        </div>
-                        <button class="btn btn-outline-primary" type="submit">Sign in</button>
-                    </form>
+<div class="container-sm px-4 py-5">
+	<h2 class="pb-2 border-bottom fw-bolder">Win bets against your friends</h2>
+	<div class="row align-items-center g-4 py-5 border-bottom mb-4">
+		<div class="col-12">
+			<img
+				width="100%"
+				src="{{url_for('static', filename='imgs/AmicaBetBlue.svg')}}"
+				alt="AmicaBet"
+			/>
+		</div>
+		<div class="col d-flex flex-row gap-4">
+			<div class="">
+				<h3 class="fs-2">Featured title</h3>
+				<p>
+					Paragraph of text beneath the heading to explain the
+					heading. We'll add onto it with another sentence and
+					probably just keep going until we run out of words.
+				</p>
+			</div>
+			<div>
+				<h3 class="fs-2">Featured title</h3>
+				<p>
+					Paragraph of text beneath the heading to explain the
+					heading. We'll add onto it with another sentence and
+					probably just keep going until we run out of words.
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<style>
+			.cardfloat {
+				position: relative;
+				animation-name: float;
+				animation-duration: 0.5s;
+				animation-iteration-count: infinite;
+				animation-direction: alternate;
+			}
 
-                </div>
-                <div class="modal-footer">
-                    <button id="toggleRegister" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#register"> Register instead </button>
-                </div>
-            </div>
-        </div>
-    </div>
+			@keyframes float {
+				from {
+					top: 0;
+				}
+				to {
+					top: 10px;
+				}
+			}
+		</style>
+		<div class="row">
+			<div class="col-lg-8 col-md-12">
+				<div class="border rounded-5 shadow p-4 mb-3">
+					<h3 class="fs-2">Featured title</h3>
+					<p class="mb-0">
+						Paragraph of text beneath the heading to explain the
+						heading. We'll add onto it with another sentence and
+						probably just keep going until we run out of words.
+					</p>
+				</div>
+				<div class="border rounded-5 shadow p-4">
+					<h3 class="fs-2">Featured title</h3>
+					<p class="mb-0">
+						Paragraph of text beneath the heading to explain the
+						heading. We'll add onto it with another sentence and
+						probably just keep going until we run out of words.
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-12 cardfloat">
+				<img
+					width="100%"
+					src="{{url_for('static', filename='imgs/coin.svg')}}"
+					alt="Coin"
+				/>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="b-example-divider"></div>
+<div class="container px-4 py-5">
+	<h2 class="pb-2 border-bottom fw-bold">Columns with icons</h2>
+	<div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+		<div class="feature col">
+			<div
+				class="rounded-4 feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient p-3 mb-3"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="30"
+					height="30"
+					fill="currentColor"
+					class="bi bi-collection"
+					viewBox="0 0 16 16"
+				>
+					<path
+						d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"
+					/>
+				</svg>
+			</div>
+			<h3 class="fs-2">Featured title</h3>
+			<p>
+				Paragraph of text beneath the heading to explain the heading.
+				We'll add onto it with another sentence and probably just keep
+				going until we run out of words.
+			</p>
+			<a href="#" class="icon-link d-inline-flex align-items-center">
+				Call to action
+				<svg class="bi" width="1em" height="1em">
+					<use xlink:href="#chevron-right"></use>
+				</svg>
+			</a>
+		</div>
+		<div class="feature col">
+			<div
+				class="rounded-4 feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient p-3 mb-3"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="30"
+					height="30"
+					fill="currentColor"
+					class="bi bi-person-plus-fill"
+					viewBox="0 0 16 16"
+				>
+					<path
+						d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+					/>
+					<path
+						fill-rule="evenodd"
+						d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"
+					/>
+				</svg>
+			</div>
+			<h3 class="fs-2">Featured title</h3>
+			<p>
+				Paragraph of text beneath the heading to explain the heading.
+				We'll add onto it with another sentence and probably just keep
+				going until we run out of words.
+			</p>
+			<a href="#" class="icon-link d-inline-flex align-items-center">
+				Call to action
+				<svg class="bi" width="1em" height="1em">
+					<use xlink:href="#chevron-right"></use>
+				</svg>
+			</a>
+		</div>
+		<div class="feature col">
+			<div
+				class="rounded-4 feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient p-3 mb-3"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="30"
+					height="30"
+					fill="currentColor"
+					class="bi bi-toggles2"
+					viewBox="0 0 16 16"
+				>
+					<path
+						d="M9.465 10H12a2 2 0 1 1 0 4H9.465c.34-.588.535-1.271.535-2 0-.729-.195-1.412-.535-2z"
+					/>
+					<path
+						d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm.535-10a3.975 3.975 0 0 1-.409-1H4a1 1 0 0 1 0-2h2.126c.091-.355.23-.69.41-1H4a2 2 0 1 0 0 4h2.535z"
+					/>
+					<path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
+				</svg>
+			</div>
+			<h3 class="fs-2">Featured title</h3>
+			<p>
+				Paragraph of text beneath the heading to explain the heading.
+				We'll add onto it with another sentence and probably just keep
+				going until we run out of words.
+			</p>
+			<a href="#" class="icon-link d-inline-flex align-items-center">
+				Call to action
+				<svg class="bi" width="1em" height="1em">
+					<use xlink:href="#chevron-right"></use>
+				</svg>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="b-example-divider"></div>
+<!-- FOOTER -->
+<div class="container">
+	<footer
+		class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4"
+	>
+		<div class="col-md-4 d-flex align-items-center">
+			<a
+				href="/"
+				class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
+			>
+				<svg class="bi" width="30" height="24">
+					<use xlink:href="#bootstrap"></use>
+				</svg>
+			</a>
+			<span class="mb-3 mb-md-0 text-muted">© 2022 AmicaBet, Inc</span>
+		</div>
 
-    <div class="modal fade" id="register" tabindex="-1" aria-hidden="False">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Register</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {% for message in get_flashed_messages() %}
-                        <div class="flash mb-3" style="color:red"> *{{ message }}</div>
-                    {% endfor %}
-                    <form action="{{url_for('auth.register')}}" method="post">
-                        <div class="mb-3 row">
-                            <div class="col-4">
-                                <label class="form-label" style="width:100%" for="fname">First Name</label>
-                            </div>
-                            <div class="col-8">
-                                <input class=" form-control" id="fname" name="fname" class="mb-3" type="text" required placeholder="First Name">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-4">
-                                <label class="form-label" style="width:100%" for="lname">Last Name</label>
-                            </div>
-                            <div class="col-8">
-                                <input class=" form-control" id="lname" name="lname" class="mb-3" type="text" required placeholder="Last Name">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-12">
-                                <label class="col-3 form-label" style="width:100%" for="email">Email</label>
-                            </div>
-                            <div class="col-12">
-                                <input class="col-9 form-control" id="Remail" name="email" class="mb-3" type="email" required placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-6">
-                                <label class="form-label" style="width:100%" for="password">Password</label>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label" style="width:100%" for="password">Confirm Password</label>
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control" id="Rpassword" name="password" class="mb-3" type="password" required placeholder="Password">
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control" id="confpassword" name="confirmPassword" class="mb-3" type="password" required placeholder="Confirm Password">
-                            </div>
-                            
-                        </div>
-                        <button class="btn btn-outline-primary" type="submit">Register</button>
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#signin"> Sign in instead </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <h1>Body</h1>
-    </div>
-
-    {% if activeModalRegister %}
-        <script type="text/javascript">
-            $(window).on('load', function() {
-                $('#register').modal('show');
-            });
-        </script>
-    {% endif %}
-    {% if activeModalLogin %}
-        <script type="text/javascript">
-            $(window).on('load', function() {
-                $('#signin').modal('show');
-            });
-        </script>
-        
-    {% endif %}
+		<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+			<li class="ms-3">
+				<a class="text-muted" href="#"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="30"
+						height="24"
+						fill="currentColor"
+						class="bi bi-twitter"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+						/></svg
+				></a>
+			</li>
+			<li class="ms-3">
+				<a class="text-muted" href="#"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="30"
+						height="24"
+						fill="currentColor"
+						class="bi bi-instagram"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"
+						/></svg
+				></a>
+			</li>
+			<li class="ms-3">
+				<a class="text-muted" href="#"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="30"
+						height="24"
+						fill="currentColor"
+						class="bi bi-linkedin"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"
+						/></svg
+				></a>
+			</li>
+		</ul>
+	</footer>
+</div>
 {% endblock %}

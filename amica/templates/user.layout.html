@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{%block title%} {%endblock%}</title>
+		<!-- Bootstrap -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+			crossorigin="anonymous"
+		/>
+		<!-- FONT -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- APPLYING THE FONT -->
+		<style>
+			* {
+				font-family: "Poppins", sans-serif;
+			}
+		</style>
+	</head>
+	<body class="">
+		<!-- Navbar -->
+		<div class="fixed-top py-3 px-1" style="width: 5rem; height: 90vh">
+			<div
+				class="rounded bg-dark d-flex flex-column text-center"
+				style="height: 100%"
+			>
+				<a
+					href="{{url_for('user.homepage')}}"
+					class="d-block p-2 pt-3 mouseOver rounded-top"
+					data-bs-toggle="tooltip"
+					data-bs-placement="right"
+					data-bs-original-title="Homepage"
+				>
+					<img
+						width="50"
+						class="object-fit-sm-contain"
+						src="{{url_for('static', filename='imgs/logo.svg')}}"
+						alt="AB"
+					/>
+				</a>
+				<ul class="nav nav-pills flex-column text-cente">
+					<li class="nav-item mt-1 mouseOver">
+						<a
+							href="{{url_for('user.profile')}}"
+							class="nav-link py-3"
+							aria-current="page"
+							data-bs-toggle="tooltip"
+							data-bs-placement="right"
+							data-bs-original-title="Profile"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="white"
+								class="bi bi-person-circle"
+								viewBox="0 0 16 16"
+							>
+								<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+								<path
+									fill-rule="evenodd"
+									d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+								/>
+							</svg>
+						</a>
+					</li>
+					<li class="nav-item mt-1 mouseOver">
+						<a
+							href="#"
+							class="nav-link py-3"
+							data-bs-toggle="tooltip"
+							data-bs-placement="right"
+							data-bs-original-title="Bets"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="white"
+								class="bi bi-currency-dollar"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"
+								/>
+							</svg>
+						</a>
+					</li>
+				</ul>
+				<div style="height: 100%"></div>
+				<div
+					class="py-3 border-top mouseOver rounded-bottom"
+					data-bs-toggle="tooltip"
+					data-bs-placement="right"
+					data-bs-original-title="Logout"
+				>
+					<a href="{{url_for('auth.logout')}}">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							fill="white"
+							class="bi bi-box-arrow-left"
+							viewBox="0 0 16 16"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"
+							/>
+							<path
+								fill-rule="evenodd"
+								d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"
+							/>
+						</svg>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- Hover adding class -->
+		<script>
+			$(document).ready(function () {
+				$(".mouseOver").hover(
+					function () {
+						$(this).addClass("bg-black");
+					},
+					function () {
+						$(this).removeClass("bg-black");
+					}
+				);
+			});
+		</script>
+		<!-- Navbar end -->
+		<main class="col-11" style="margin-left: 6rem">
+			{% block main %} {% endblock %}
+		</main>
+
+		<!-- Bootstrap -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			(function () {
+				"use strict";
+				var tooltipTriggerList = [].slice.call(
+					document.querySelectorAll('[data-bs-toggle="tooltip"]')
+				);
+				tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+					new bootstrap.Tooltip(tooltipTriggerEl);
+				});
+			})();
+		</script>
+	</body>
+</html>
