@@ -21,7 +21,7 @@ def register():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        cPassword = request.form.get('confirmPassword')
+        cPassword = request.form.get('conf-password')
         fname = request.form.get('fname')
         lname = request.form.get('lname')
 
@@ -47,22 +47,32 @@ def register():
             except:
                 error = f"Email {email} is already registered."
             else:
-                return render_template('landing/landing.html', activeModalLogin=True, email=email)
+                return render_template('auth/login.html', email=email)
 
         flash(error)
 
-    if error:
-        return render_template('landing/landing.html', activeModalRegister=True)
-    return render_template('landing/landing.html')
+        return render_template('auth/register.html', user={
+            'email':email,
+            'fname':fname,
+            'lname':lname,
+        })
+    return render_template('auth/register.html', user={
+            'email':"",
+            'fname':"",
+            'lname':"",
+        })
 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+
         email = request.form['email']
         password = request.form['password']
+
         db = get_db()
         error = None
+
         user = db.execute(
             'SELECT * FROM user WHERE email = ?', (email,)
         ).fetchone()
@@ -79,7 +89,10 @@ def login():
 
         flash(error)
 
-    return render_template('landing/landing.html', activeModalLogin=True)
+    # redirect user in if it is already logged in.
+    if session.get('user_id') is not None:
+        return redirect(url_for('user.homepage'))
+    return render_template('auth/login.html')
 
 @bp.before_app_request
 def load_logged_in_user():
