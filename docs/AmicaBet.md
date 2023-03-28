@@ -74,4 +74,4 @@ The full development stack is:
 
 #### {v1.1}
 
-[ERDiagram](assets/AmicaBetERDiagram.drawio.png)
+![ERDiagram](assets/AmicaBetERDiagram.drawio.png)
