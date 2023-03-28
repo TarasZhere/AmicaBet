@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS bet;
-DROP TABLE IF EXISTS createdby;
+DROP TABLE IF EXISTS creates;
+DROP TABLE IF EXISTS challenges;
+DROP TABLE IF EXISTS voided;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,27 +13,55 @@ CREATE TABLE user (
   balance INTEGER DEFAULT 20
 );
 
--- CREATE TABLE post (
---   id INTEGER PRIMARY KEY AUTOINCREMENT,
---   uid INTEGER NOT NULL,
---   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
---   title TEXT NOT NULL,
---   body TEXT NOT NULL,
---   FOREIGN KEY (author_id) REFERENCES user (id)
--- );
-
 CREATE TABLE bet (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
   descr TEXT NOT NULL,
-  ticket INTEGER DEFAULT 20
+  ticket INTEGER DEFAULT 20, 
+  pool INTEGER DEFAULT 20
 );
 
+-- RELATIONAL SCHEMA
 -- primary key is the combination of the two fereign keys
-CREATE TABLE createdby (
-  bid INTEGER,
-  uid INTEGER,
+CREATE TABLE creates (
+    bid INTEGER,
+    uid INTEGER,
+    PRIMARY KEY (uid, bid),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (uid) REFERENCES user(id),
+    FOREIGN KEY (bid) REFERENCES bet(id)
+);
 
-  FOREIGN KEY (uid) REFERENCES user (id),
-  FOREIGN KEY (bid) REFERENCES bet (id)
+-- RELETIONAL SCHEMA
+CREATE TABLE challenges (
+    bid INTEGER,
+    uid INTEGER,
+    PRIMARY KEY (uid, bid),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (uid) REFERENCES user(id),
+    FOREIGN KEY (bid) REFERENCES bet(id)
+);
+
+-- RELETIONAL SCHEMA
+CREATE TABLE voided (
+    bid INTEGER,
+    uid INTEGER,
+    PRIMARY KEY (uid, bid),
+
+    retained FLOAT NOT NULL,
+
+    FOREIGN KEY (uid) REFERENCES user(id),
+    FOREIGN KEY (bid) REFERENCES bet(id)
+);
+
+-- RELETIONAL SCHEMA
+CREATE TABLE settled (
+    bid INTEGER,
+    uid INTEGER,
+    PRIMARY KEY (uid, bid),
+
+    winner FLOAT NOT NULL,
+
+    FOREIGN KEY (uid) REFERENCES user(id),
+    FOREIGN KEY (bid) REFERENCES bet(id)
 );
