@@ -12,10 +12,6 @@ from amica.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/sign-in', methods=['GET','POST'])
-def signin():
-    return render_template('auth/sign-in.html')
-
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
