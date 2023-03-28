@@ -74,4 +74,4 @@ The full development stack is:
 
 #### {v1.1}
 
-![ERDiagram](https://drive.google.com/file/d/1N7Wwq8zUhrU785EPMABeDn-lpI9ynHlj/view?usp=sharing)
+![ERDiagram](assets/AmicaBet%20ER%20Diagram.drawio.png)
