@@ -1,0 +1,37 @@
+<!-- macro definition -->
+{% macro bet(title, subtitle, description, ticket, bettors) %}
+
+<div class="card my-3">
+    <div class="card-body">
+        <h5 class="card-title">{{title|capitalize}} - ${{ticket}}</h5>
+        <div class="d-flex flex-row my-2">
+            {% for bettor in bettors %}
+            <div
+                style="height: 36px; width: 36px"
+                class="mx-1 bg-info rounded-circle text-center text-sm p-0"
+            >
+                <!-- Name of person caps -->
+                <p class="mt-1">TT</p>
+            </div>
+            {% endfor %}
+        </div>
+        <h6 class="card-subtitle mb-2 text-muted">
+            {% if subtitle %}
+            <!--  -->
+            {{subtitle}}
+            <!--  -->
+            {% else %}
+            <!--  -->
+            {{bettors[0]['fname']|capitalize}} is betting ${{ticket}}
+            <!--  -->
+            {% endif %}
+        </h6>
+        <p class="card-text">{{description}}</p>
+        <a href="#" class="w-100 btn btn-lg btn-outline-success"
+            >Request to join!</a
+        >
+    </div>
+</div>
+
+<!-- endmacro -->
+{% endmacro %}

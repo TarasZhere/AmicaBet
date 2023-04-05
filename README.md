@@ -4,7 +4,7 @@ Read the docs to know more about the application. Check `./docs/AmicaBet.md`
 
 ## Activate environment
 
-`. venv/bin/activate`
+`. venv/bin/activate` or windows `venv\Scripts\activate`
 
 ## Install requirements
 
