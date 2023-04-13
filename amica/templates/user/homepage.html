@@ -2,19 +2,89 @@
 <!-- title -->
 {% block title %} Homepage - AmicaBet {% endblock %}
 <!-- content -->
-{% block content %} {% from "user/bet.macro.html" import bet with context %}
-<div class="row">
-    <!-- Posts -->
-    <div class="col-sm-12 col-md-8 gap-4">
-        {{bet('betting test', None, 'Lorem ipsum dolor sit amet consectetur,
-        adipisicing elit. Iure, facilis?', 20, [{'fname': 'Tom'}, {'fname':
-        'Jake'}])}} {{bet('betting test', 'Jake is betting with freinds', 'Lorem
-        ipsum dolor sit amet consectetur, adipisicing elit. Iure, facilis?', 20,
-        [1,2,3])}} {{bet('betting test', 'Jake is betting with freinds', 'Lorem
-        ipsum dolor sit amet consectetur, adipisicing elit. Iure, facilis?', 20,
-        [1,2,3])}}
-    </div>
-    <!-- Friend list -->
-    <div class="col-sm-12 col-md-4"></div>
+{% block content %}
+<!-- importing bet.macro.html -->
+{% from "user/bet.macro.html" import bet with context %}
+<!--  -->
+{% from "user/friend.macro.html" import friend with context %}
+<!--  -->
+
+<div class="container-fluid row">
+	<!-- profile info -->
+	<div
+		style="height: 90vh"
+		class="container-fluid p-0 col-md-3 bg-white border"
+	>
+		<div style="max-height: 45vh" class="h-50 border-bottom p-4">
+			<h2 class="border-bottom mb-3 text-center fw-bolder">Portfolio</h2>
+			<h4 class="fw-bold">Winning rate</h4>
+			<p>70%</p>
+			<h4 class="fw-bold">Total winnings</h4>
+			<p>40$</p>
+			<h4 class="fw-bold">Rank</h4>
+			<p>#2</p>
+		</div>
+		<div style="max-height: 45vh" class="overflow-hidden">
+			<!--  -->
+			{{friend(None, "Tom", "yellow")}}
+			<!--  -->
+			<!--  -->
+			{{friend(None, "Tom", "yellow")}}
+			<!--  -->
+			<!--  -->
+			{{friend(None, "Tom", "yellow")}}
+			<!--  -->
+			<!--  -->
+			{{friend(None, "Tom", "yellow")}}
+			<!--  -->
+			<!--  -->
+			{{friend(None, "Tom", "yellow")}}
+			<!--  -->
+			<!--  -->
+			{{friend(None, "Tom", "yellow")}}
+			<!--  -->
+		</div>
+	</div>
+	<!-- Posts -->
+	<div class="col-md-6 overflow-scroll" style="max-height: 90vh">
+		<div
+			class="card text-bg-dark rounded-5 overflow-hidden"
+			style="height: 200px"
+		>
+			<video autoplay loop muted class="card-img rounded-5 img-fluid">
+				<source
+					src="{{url_for('static', filename='animation/space.mp4')}}"
+					type="video/mp4"
+				/>
+			</video>
+			<div
+				class="card-img-overlay text-light d-flex flex-column justify-content-center text-center"
+			>
+				<h1 class="card-title fw-bolder">Bets</h1>
+				<p class="card-text">
+					Your bets are displayed bellow, as well there are your
+					friend's bet here too.
+				</p>
+			</div>
+		</div>
+
+		{{bet('betting test', None, 'Lorem ipsum dolor sit amet consectetur,
+		adipisicing elit. Iure, facilis?', 20, [{'fname': 'Tom'}, {'fname':
+		'Jake'}])}}
+		<!--  -->
+		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
+		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
+		<!--  -->
+		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
+		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
+		<!--  -->
+		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
+		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
+		<!--  -->
+		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
+		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
+	</div>
+	<!-- Friend list -->
+	<div class="col-md-3 my-3 p-0"></div>
 </div>
 {% endblock %}

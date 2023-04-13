@@ -11,13 +11,16 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 def homepage():
     uid = session.get('user_id')
     db = get_db()
-    if uid:
+    try:
         user = db.execute(
             f'SELECT * FROM user WHERE id = {uid}'
         ).fetchone()
-        return render_template('user/homepage.html', user=user)
+    except:
+        return redirect(url_for('auth.login'))
 
-    redirect(url_for('landing'))
+    return render_template('user/homepage.html', user=user)
+
+
 
 @bp.route('profile', methods=['GET', 'POST'])
 @login_required
