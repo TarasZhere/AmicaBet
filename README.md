@@ -23,3 +23,4 @@ first you need to initialize the database. Like so:
 then ...
 
 `flask --app amica run --debug`
+`flask --app amica run --debug`
