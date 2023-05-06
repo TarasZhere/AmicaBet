@@ -1,118 +1,49 @@
-import functools
-
-from amica.utils import validEmail, invalidPassword
-
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, request, jsonify
 )
-
-from werkzeug.security import check_password_hash, generate_password_hash
-
-from amica.db import get_db
+from werkzeug.security import generate_password_hash
+from server.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/register', methods=['GET', 'POST'])
+@bp.route('/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        cPassword = request.form.get('conf-password')
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-
-        error = None
-        db = get_db()  
-
-        if not validEmail(email):
-            error = "Enter a valid Email"
-
-        elif invalidPassword(password):
-            error = invalidPassword(password)
-
-        elif not password == cPassword:
-            error = "Passwords do not match"
-
-        if error is None:
-            try:  
-                db.execute(
-                    "INSERT INTO user (email, password, fname, lname) VALUES (?, ?, ?, ?)",
-                    (email, generate_password_hash(password), fname, lname),
-                )
-                db.commit()
-            except:
-                error = f"Email {email} is already registered."
-            else:
-                return render_template('auth/login.html', email=email)
-
-        flash(error)
-
-        return render_template('auth/register.html', user={
-            'email':email,
-            'fname':fname,
-            'lname':lname,
-        })
-    return render_template('auth/register.html', user={
-            'email':"",
-            'fname':"",
-            'lname':"",
-        })
-
-
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
-    if request.method == 'POST':
-
-        email = request.form['email']
-        password = request.form['password']
-
+    try:  
         db = get_db()
-        error = None
+        db.execute(
+            "INSERT INTO user (email, password, fname, lname) VALUES (?, ?, ?, ?)",
+            (request.json['email'], generate_password_hash(request.json['password']), request.json['fname'], request.json['lname']),
+        )
+    except:
+        return ('User already registerd', 400)
+    
+    user_id = db.execute("SELECT Uid FROM user WHERE email=? ", (request.json['email'],)).fetchone()
 
-        user = db.execute(
-            'SELECT * FROM user WHERE email = ?', (email,)
-        ).fetchone()
+    user_id = dict(user_id).get('Uid')
 
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+    # adding default presidents as frieends
+    db.execute(
+        "INSERT INTO friendRequest (sender_Uid, receiver_Uid, status) values (1, ?, 'accepted'),(2, ?, 'accepted'),(3, ?, 'accepted');",[user_id, user_id, user_id]
+    )
+    db.commit()
 
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('user.homepage'))
-
-        flash(error)
+    return ('Registered', 200)
 
 
-    # redirect user in if it is already logged in.
-    if g.user is not None:
-        return redirect(url_for('user.homepage'))
-    return render_template('auth/login.html')
+@bp.route('/login', methods=['POST'])
+def login():
+    email = request.json['email']
 
-@bp.before_app_request
-def load_logged_in_user():
     try:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (session.get('user_id'),)
+        db = get_db()
+        user = db.execute(
+            f'SELECT * FROM user WHERE email = ?', [email]
         ).fetchone()
     except:
-        g.user = None
+        return 'Server error', 500
 
-
-@bp.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('landing'))
-
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if session.get('user_id') is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
+    if user is None:
+        return 'User not found', 404
+    
+    user = dict(user)
+    return jsonify(user), 200

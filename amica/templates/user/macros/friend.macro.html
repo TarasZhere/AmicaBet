@@ -1,11 +1,8 @@
 <!-- macro definition -->
-{% macro friend(pic, fname, lname) %}
+{% macro friend(fname, lname, balance) %}
 
-<div class="px-3 py-4 border-bottom">
-	<div class="d-flex flex-row gap-2 align-items-center">
-		{% if pic %}
-		<img src="{{pic}}" />
-		{% else %}
+<div class="px-3 my-4">
+	<div class="d-flex flex-row gap-2">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="36"
@@ -20,8 +17,8 @@
 				d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
 			/>
 		</svg>
-		{% endif %}
-		<h5 class="my-auto">{{fname|capitalize}} {{lname|capitalize}}</h5>
+		<h6 class="my-auto">{{fname|capitalize}} {{lname|capitalize}}</h6>
+		<h4 class="m-0">$ {{balance}}</h4>
 	</div>
 </div>
 

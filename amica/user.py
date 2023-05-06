@@ -1,38 +1,60 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, redirect, render_template, session, url_for
 )
-from amica.db import get_db
+from requests import post
 from amica.auth import login_required
+from amica.server_url import SERVER_URL as URL, headers
+
+
+###############################
+# User hompage related apis   #
+# Blue print of user          #
+###############################
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-@bp.route('homepage', methods=['GET'])
+@bp.route('homepage')
 @login_required
 def homepage():
-    uid = session.get('user_id')
-    db = get_db()
+    user_id = session.get('Uid')
+
     try:
-        user = db.execute(
-            f'SELECT * FROM user WHERE id = {uid}'
-        ).fetchone()
+        response = post(URL+'user/uid', json={'Uid':user_id}, headers=headers)
+        user = response.json()
     except:
+        session.clear()
+        return redirect(url_for('auth.login'))
+    
+    # Getting user friends list so it can be displayed
+    try:
+        response = post(URL+'user/friends', json={'Uid':user_id}, headers=headers)
+        if response.status_code == 404:
+            print('Error in "user/profile": No friends found ...')
+            friends = []
+        else: 
+            friends = response.json()
+    except:
+        session.clear()
         return redirect(url_for('auth.login'))
 
-    return render_template('user/homepage.html', user=user)
+
+    return render_template('user/homepage.html', user=user, friends = friends)
 
 
-
-@bp.route('profile', methods=['GET', 'POST'])
+@bp.route('profile')
 @login_required
 def profile():
-    id = session.get('user_id')
-    user = get_db().execute(
-        'SELECT * FROM user WHERE id = ?', (id,)
-    ).fetchone()
+    user_id = session.get('Uid')
 
-    if not user:
-        redirect(url_for('auth.login'))
+    # Getting user information
+    try:
+        response = post(URL+'user/uid', json={'Uid':user_id}, headers=headers)
+        user = response.json()
+    except:
+        session.clear()
+        return redirect(url_for('auth.login'))
+    
 
-
+    
     
     return render_template('user/profile.html', user=user)

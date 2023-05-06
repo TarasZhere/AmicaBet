@@ -1,53 +1,28 @@
 {% extends 'user/layout.html' %}
 <!-- title -->
 {% block title %} Homepage - AmicaBet {% endblock %}
-<!-- content -->
-{% block content %}
+<!--  -->
 <!-- importing bet.macro.html -->
 {% from "user/macros/bet.macro.html" import bet with context %}
 <!--  -->
 {% from "user/macros/friend.macro.html" import friend with context %}
 <!--  -->
-
-<div class="container-fluid row">
+{% block content %}
+<!-- content -->
+<div class="container-fluid row p-3 gap-4">
 	<!-- profile info -->
-	<div
-		style="height: 90vh"
-		class="container-fluid p-0 col-md-3 bg-white border"
-	>
-		<div style="height: fit-content" class="border-bottom p-4">
-			<h2 class="border-bottom mb-3 text-center fw-bolder">Portfolio</h2>
-			<h4 class="fw-bold">Winning rate</h4>
-			<p>70%</p>
-			<h4 class="fw-bold">Total winnings</h4>
-			<p>40$</p>
-			<h4 class="fw-bold">Rank</h4>
-			<p>#2</p>
-		</div>
-		<div style="height: 45vh" class="overflow-scroll p-4">
-			<h2 class="border-bottom mb-3 text-center fw-bolder">Friends</h2>
+	<div class="col-5 p-0 m-0">
+		<div class="p-4 bg-white border rounded-5">
+			<h2 class="border-bottom mb-3 text-left fw-bolder">Connections</h2>
+			{% for f in friends %}
 			<!--  -->
-			{{friend(None, "Tom", "yellow")}}
-
+			{{friend(f['fname'], f['lname'],f['balance'])}}
 			<!--  -->
-			{{friend(None, "Tom", "yellow")}}
-
-			<!--  -->
-			{{friend(None, "Tom", "yellow")}}
-			<!--  -->
-
-			{{friend(None, "Tom", "yellow")}}
-
-			<!--  -->
-			{{friend(None, "Tom", "yellow")}}
-
-			<!--  -->
-			{{friend(None, "Tom", "yellow")}}
-			<!--  -->
+			{% endfor %}
 		</div>
 	</div>
 	<!-- Posts -->
-	<div class="col-md-6 overflow-scroll pt-3" style="max-height: 90vh">
+	<div class="col-6 overflow-scroll pt-3" style="max-height: 90vh">
 		<div
 			class="card text-bg-dark rounded-5 overflow-hidden"
 			style="height: 200px"
@@ -68,24 +43,6 @@
 				</p>
 			</div>
 		</div>
-
-		{{bet('betting test', None, 'Lorem ipsum dolor sit amet consectetur,
-		adipisicing elit. Iure, facilis?', 20, [{'fname': 'Tom'}, {'fname':
-		'Jake'}])}}
-		<!--  -->
-		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
-		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
-		<!--  -->
-		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
-		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
-		<!--  -->
-		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
-		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
-		<!--  -->
-		{{bet('betting test', 'Jake is betting with freinds', 'Lorem ipsum dolor
-		sit amet consectetur, adipisicing elit. Iure, facilis?', 20, [1,2,3])}}
 	</div>
-	<!-- Create Requests -->
-	<div class="col-md-3 my-3 p-0"></div>
 </div>
 {% endblock %}

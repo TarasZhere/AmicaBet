@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS settled;
 -- USER
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  Uid INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   fname TEXT NOT NULL,
@@ -17,30 +17,24 @@ CREATE TABLE user (
   balance INTEGER DEFAULT 20
 );
 
--- REQUEST STATUS
-DROP TABLE IF EXISTS requestStaus;
-CREATE TABLE requestStaus (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    status VARCHAR(10) UNIQUE
-);
-
-INSERT INTO requestStaus (status)
-VALUES ('pending'), ('blocked'), ('rejected'), ('accepted');
+INSERT INTO user (email, password, fname, lname, balance) VALUES
+('gw@president.com', 'defaultPassword', 'George', 'Washington', NULL),
+('ja@president.com', 'defaultPassword', 'John', 'Adams', NULL),
+('tj@president.com', 'defaultPassword', 'Thomas', 'Jefferson', NULL);
 
 -- FREIND REQUEST: relation
 DROP TABLE IF EXISTS friendRequest;
 CREATE TABLE friendRequest (
-    rs_id INTEGER DEFAULT 1, -- default is on pending
-    sender_uid INTEGER,
-    receiver_uid INTEGER,
+    sender_Uid INTEGER,
+    receiver_Uid INTEGER,
+    status VARCHAR(12) CHECK( status IN ('pending','accepted','rejected', 'blocked') ) DEFAULT 1,
 
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (sender_uid) REFERENCES user(id),
-    FOREIGN KEY (receiver_uid) REFERENCES user(id),
-    FOREIGN KEY (rs_id) REFERENCES requestStaus(id),
+    FOREIGN KEY (sender_Uid) REFERENCES user(Uid),
+    FOREIGN KEY (receiver_Uid) REFERENCES user(Uid),
 
-    PRIMARY KEY (sender_uid, receiver_uid, rs_id)
+    PRIMARY KEY (sender_Uid, receiver_Uid)
 );
 
 
@@ -58,7 +52,7 @@ CREATE TABLE profileInfo (
 -- BET
 DROP TABLE IF EXISTS bet;
 CREATE TABLE bet (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  Bid INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
   descr TEXT NOT NULL,
   ticket INTEGER DEFAULT 20, 
@@ -68,45 +62,11 @@ CREATE TABLE bet (
 -- RELATIONAL SCHEMA
 -- primary key is the combination of the two fereign keys
 CREATE TABLE creates (
-    bid INTEGER,
-    uid INTEGER,
+    Bid INTEGER,
+    Uid INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (uid) REFERENCES user(id),
-    FOREIGN KEY (bid) REFERENCES bet(id),
-    PRIMARY KEY (uid, bid)
+    FOREIGN KEY (Uid) REFERENCES user(Uid),
+    FOREIGN KEY (Bid) REFERENCES bet(Bid),
+    PRIMARY KEY (Uid, Bid)
 );
 
--- RELETIONAL SCHEMA
-CREATE TABLE challenges (
-    bid INTEGER,
-    uid INTEGER,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (uid) REFERENCES user(id),
-    FOREIGN KEY (bid) REFERENCES bet(id),
-    PRIMARY KEY (uid, bid)
-);
-
--- RELETIONAL SCHEMA
-CREATE TABLE voided (
-    bid INTEGER,
-    uid INTEGER,
-
-    retained FLOAT NOT NULL,
-
-    FOREIGN KEY (uid) REFERENCES user(id),
-    FOREIGN KEY (bid) REFERENCES bet(id),
-
-    PRIMARY KEY (uid, bid)
-);
-
--- RELETIONAL SCHEMA
-CREATE TABLE settled (
-    bid INTEGER,
-    uid INTEGER,
-
-    winner FLOAT NOT NULL,
-
-    FOREIGN KEY (uid) REFERENCES user(id),
-    FOREIGN KEY (bid) REFERENCES bet(id),
-    PRIMARY KEY (uid, bid)
-);
