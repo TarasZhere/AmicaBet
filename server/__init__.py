@@ -30,4 +30,10 @@ def create_app(test_config=None):
     from . import user
     app.register_blueprint(user.bp)
 
+    from . import bet
+    app.register_blueprint(bet.bp)
+
+    from . import friend
+    app.register_blueprint(friend.bp)
+
     return app

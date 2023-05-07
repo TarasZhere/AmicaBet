@@ -1,206 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{%block title%} {%endblock%}</title>
-		<!-- Bootstrap -->
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-			crossorigin="anonymous"
-		/>
-		<!-- FONT -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
-			rel="stylesheet"
-		/>
-		<!-- APPLYING THE FONT -->
-		<style>
-			* {
-				font-family: "Poppins", sans-serif;
-			}
-			.bg {
-				background-color: #f0f5f8;
-			}
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{%block title%} {%endblock%}</title>
+        <!-- Bootstrap -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+            crossorigin="anonymous"
+        />
+        <!-- FONT -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+            rel="stylesheet"
+        />
+        <!-- APPLYING THE FONT -->
+        <style>
+            * {
+                font-family: "Poppins", sans-serif;
+            }
+            .bg {
+                background-color: #f0f5f8;
+            }
 
-			.anim:hover {
-				transform: scale(1.1);
-			}
+            .anim:hover {
+                transform: scale(1.1);
+            }
 
-			.anim {
-				transition: transform 0.2s ease-in-out;
-			}
+            .anim {
+                transition: transform 0.2s ease-in-out;
+            }
 
-			.dropdown-toggle::after {
-				content: none;
-			}
-		</style>
-	</head>
-	<body class="bg">
-		<!-- navigation bar -->
-		<div style="max-height: 100vh">
-			<nav class="navbar py-3 border-secondary shadow-sm z-1 bg-dark">
-				<div class="container-sm">
-					<a class="navbar-brand anim" href="#">
-						<img
-							src="{{url_for('static', filename='imgs/AmicaBet.svg')}}"
-							alt="AmicaBet"
-							height="40px"
-						/>
-					</a>
-					<ul
-						class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small gap-3"
-					>
-						<li>
-							<a
-								href="{{url_for('user.homepage')}}"
-								class="btn btn-outline-primary border border-0 {% if request.path == '/user/homepage'%}disabled{%endif%}"
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									fill="currentColor"
-									class="bi bi-house mx-auto mb-1"
-									viewBox="0 0 16 16"
-								>
-									<path
-										d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"
-									/>
-								</svg>
-								<!-- Home -->
-							</a>
-						</li>
-						<li>
-							<a
-								href="{{url_for('user.profile')}}"
-								class="btn btn-outline-primary border border-0 {% if request.path == '/user/profile'%}disabled{%endif%}"
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									fill="currentColor"
-									class="bi bi-person mx-auto mb-1"
-									viewBox="0 0 16 16"
-								>
-									<path
-										d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"
-									/>
-								</svg>
-								<!-- Profile -->
-							</a>
-						</li>
-						<li class="dropdown">
-							<button
-								class="btn btn-outline-primary border border-0 dropdown-toggle d-flex flex-row"
-								type="button"
-								data-bs-toggle="dropdown"
-								aria-expanded="false"
-							>
-								<svg
-									width="24"
-									height="24"
-									fill="currentColor"
-									class="bi d-block mx-auto mb-1"
-									viewBox="0 0 16 16"
-								>
-									<path
-										d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"
-									/>
-								</svg>
-								<!-- Notifications -->
-								<span
-									class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-								>
-									99+
-									<span class="visually-hidden"
-										>unread notifications</span
-									>
-								</span>
-							</button>
-							<ul class="dropdown-menu">
-								<li>
-									<a class="dropdown-item" href="#">Action</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#"
-										>Another action</a
-									>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#"
-										>Something else here</a
-									>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="btn btn-outline-primary border border-0 {% if request.path == '/user/setting'%}disabled{%endif%}"
-							>
-								<svg
-									width="24"
-									height="24"
-									fill="currentColor"
-									class="bi d-block mx-auto mb-1"
-									viewBox="0 0 16 16"
-								>
-									<path
-										d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"
-									/>
-									<path
-										d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"
-									/>
-								</svg>
-								<!-- Setting -->
-							</a>
-						</li>
-						<li>
-							<a
-								href="{{url_for('auth.logout')}}"
-								class="btn btn-outline-danger border border-0"
-							>
-								<svg
-									width="24"
-									height="24"
-									fill="currentColor"
-									class="bi d-block mx-auto mb-1"
-									viewBox="0 0 16 16"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"
-									/>
-									<path
-										fill-rule="evenodd"
-										d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"
-									/>
-								</svg>
-								<!-- Logout -->
-							</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
+            .dropdown-toggle::after {
+                content: none;
+            }
+            .hide-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
 
-			<!-- body -->
-			<div class="container p-0">
-				<!-- content -->
-				{% block content %} {% endblock %}
-			</div>
-		</div>
-		<!-- Bootstrap -->
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-			crossorigin="anonymous"
-		></script>
-	</body>
+            /* Hide scrollbar for IE, Edge and Firefox */
+            .hide-scrollbar {
+                -ms-overflow-style: none; /* IE and Edge */
+                scrollbar-width: none; /* Firefox */
+            }
+        </style>
+    </head>
+    <body class="bg">
+        <!-- navigation bar -->
+        <div style="max-height: 100vh">
+            <nav class="navbar py-3 border-secondary shadow-sm z-1 bg-dark">
+                <div class="container-sm">
+                    <a class="navbar-brand anim" href="#">
+                        <img
+                            src="{{url_for('static', filename='imgs/AmicaBet.svg')}}"
+                            alt="AmicaBet"
+                            height="40px"
+                        />
+                    </a>
+                    <ul
+                        class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small gap-3"
+                    >
+                        <li>
+                            <a
+                                href="{{url_for('user.homepage')}}"
+                                class="btn btn-outline-primary border border-0 {% if request.path[:15] == '/user/homepage/'%}disabled{%endif%}"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    class="bi bi-house mx-auto mb-1"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"
+                                    />
+                                </svg>
+                                <!-- Home -->
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="{{url_for('user.profile')}}"
+                                class="btn btn-outline-primary border border-0 {% if request.path == '/user/profile'%}disabled{%endif%}"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    class="bi bi-person mx-auto mb-1"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"
+                                    />
+                                </svg>
+                                <!-- Profile -->
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <button
+                                class="btn btn-outline-primary border border-0 dropdown-toggle d-flex flex-row"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    class="bi d-block mx-auto mb-1"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"
+                                    />
+                                </svg>
+                                <!-- Notifications -->
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                >
+                                    99+
+                                    <span class="visually-hidden"
+                                        >unread notifications</span
+                                    >
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Another action</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Something else here</a
+                                    >
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a
+                                href="{{url_for('user.search')}}"
+                                class="btn btn-outline-primary border border-0 {% if request.path == '/user/search'%}disabled{%endif%}"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    class="bi bi-search"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                    />
+                                </svg>
+                                <!-- Search -->
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="{{url_for('auth.logout')}}"
+                                class="btn btn-outline-danger border border-0"
+                            >
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    class="bi d-block mx-auto mb-1"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"
+                                    />
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"
+                                    />
+                                </svg>
+                                <!-- Logout -->
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- body -->
+            <div class="container p-0">
+                <!-- content -->
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+        <!-- Bootstrap -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"
+        ></script>
+    </body>
 </html>

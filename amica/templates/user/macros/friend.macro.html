@@ -1,25 +1,25 @@
 <!-- macro definition -->
-{% macro friend(fname, lname, balance) %}
+{% macro friend(fname, lname, balance, img=None) %}
 
 <div class="px-3 my-4">
-	<div class="d-flex flex-row gap-2">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="36"
-			height="36"
-			fill="currentColor"
-			class="bi bi-person-circle"
-			viewBox="0 0 16 16"
-		>
-			<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-			<path
-				fill-rule="evenodd"
-				d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-			/>
-		</svg>
-		<h6 class="my-auto">{{fname|capitalize}} {{lname|capitalize}}</h6>
-		<h4 class="m-0">$ {{balance}}</h4>
-	</div>
+    <div class="d-flex flex-row justify-content-between gap-2">
+        <div class="d-flex flex-row gap-2">
+            <img
+                class="rounded-circle"
+                height="36"
+                width="36"
+                src="https://i.pravatar.cc/150?u={{fname}}{{lname}}"
+                alt="Avatar"
+            />
+
+            <div class="my-auto fs-6 text-left w-full">
+                {{fname|capitalize}} {{lname|capitalize}}
+            </div>
+        </div>
+        <div class="my-auto fs-4">
+            ${% if balance %} {{balance}} {% else %} 20 {% endif %}
+        </div>
+    </div>
 </div>
 
 <!--  -->

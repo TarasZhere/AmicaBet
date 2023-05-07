@@ -1,6 +1,4 @@
-from flask import (
-    Blueprint, request, jsonify
-)
+from flask import Blueprint, request, jsonify
 from server.db import get_db
 
 bp = Blueprint('user', __name__, url_prefix='/user')
@@ -27,13 +25,13 @@ def get_friends():
     try:
         requested = db.execute(
             'SELECT fname, lname, balance FROM (SELECT * FROM friendRequest WHERE sender_Uid = ? AND status = "accepted") AS friends, user AS u WHERE friends.receiver_uid = u.Uid', [user_id]
-        )
+        ).fetchall()
 
         friends = list(map(lambda i: dict(i), requested))
 
         received = db.execute(
             'SELECT fname, lname, balance FROM (SELECT * FROM friendRequest WHERE receiver_Uid = ? AND status = "accepted") AS friends, user AS u WHERE friends.sender_Uid = u.Uid', [user_id]
-        )
+        ).fetchall()
 
         list(map(lambda i: friends.append(dict(i)), received))
 

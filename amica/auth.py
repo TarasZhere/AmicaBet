@@ -1,8 +1,6 @@
 import functools
 from amica.utils import validEmail, invalidPassword
-from flask import (
-    Blueprint, flash, redirect, render_template, request, session, url_for
-)
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash
 from requests import post
 from amica.server_url import SERVER_URL as URL, headers

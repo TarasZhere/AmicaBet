@@ -1,10 +1,3 @@
-DROP TABLE IF EXISTS requestStaus;
-DROP TABLE IF EXISTS creates;
-DROP TABLE IF EXISTS challenges;
-DROP TABLE IF EXISTS voided;
-DROP TABLE IF EXISTS settled;
-
-
 -- USER
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
@@ -27,7 +20,7 @@ DROP TABLE IF EXISTS friendRequest;
 CREATE TABLE friendRequest (
     sender_Uid INTEGER,
     receiver_Uid INTEGER,
-    status VARCHAR(12) CHECK( status IN ('pending','accepted','rejected', 'blocked') ) DEFAULT 1,
+    status VARCHAR(12) CHECK( status IN ('pending','accepted','rejected', 'blocked') ) DEFAULT 'pending',
 
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -52,21 +45,74 @@ CREATE TABLE profileInfo (
 -- BET
 DROP TABLE IF EXISTS bet;
 CREATE TABLE bet (
-  Bid INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  descr TEXT NOT NULL,
-  ticket INTEGER DEFAULT 20, 
-  pool INTEGER DEFAULT 20
+    Bid INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    status VARCHAR(12) CHECK( status IN ('pending','running','rejected', 'closed') ) DEFAULT 'pending',
+    ticket INTEGER NOT NULL DEFAULT 20, 
+    pool INTEGER
 );
 
 -- RELATIONAL SCHEMA
 -- primary key is the combination of the two fereign keys
-CREATE TABLE creates (
-    Bid INTEGER,
-    Uid INTEGER,
+DROP TABLE IF EXISTS invite;
+CREATE TABLE invite (
+    Bid INTEGER NOT NULL,
+    Uid INTEGER NOT NULL,
+    invited_Uid INTEGER NOT NULL,
+    status VARCHAR(12) CHECK( status IN ('pending','accepted','rejected') ) DEFAULT 'pending',
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (Uid) REFERENCES user(Uid),
+    FOREIGN KEY (invited_Uid) REFERENCES user(Uid),
+    FOREIGN KEY (Bid) REFERENCES bet(Bid),
+
+    PRIMARY KEY (Bid, Uid)
+);
+
+
+-- RELATIONAL SCHEMA
+-- primary key is the combination of the two fereign keys
+DROP TABLE IF EXISTS partecipate;
+CREATE TABLE partecipate (
+    Bid INTEGER NOT NULL,
+    Uid INTEGER NOT NULL,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     FOREIGN KEY (Uid) REFERENCES user(Uid),
     FOREIGN KEY (Bid) REFERENCES bet(Bid),
     PRIMARY KEY (Uid, Bid)
 );
 
+-- RELATIONAL SCHEMA
+-- primary key is the combination of the two fereign keys
+DROP TABLE IF EXISTS win;
+CREATE TABLE win (
+    Bid INTEGER NOT NULL,
+    Uid INTEGER NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (Uid) REFERENCES user(Uid),
+    FOREIGN KEY (Bid) REFERENCES bet(Bid),
+    PRIMARY KEY (Uid, Bid)
+);
+
+-- RELATIONAL SCHEMA
+-- primary key is the combination of the two fereign keys
+DROP TABLE IF EXISTS vote;
+CREATE TABLE vote (
+    Bid INTEGER NOT NULL,
+    Uid INTEGER NOT NULL,
+    voted_Uid INTEGER NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (voted_Uid) REFERENCES user(Uid),
+
+    FOREIGN KEY (Uid) REFERENCES user(Uid),
+    FOREIGN KEY (Bid) REFERENCES bet(Bid),
+    PRIMARY KEY (Uid, Bid)
+);

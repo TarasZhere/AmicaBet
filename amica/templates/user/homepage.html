@@ -10,39 +10,99 @@
 {% block content %}
 <!-- content -->
 <div class="container-fluid row p-3 gap-4">
-	<!-- profile info -->
-	<div class="col-5 p-0 m-0">
-		<div class="p-4 bg-white border rounded-5">
-			<h2 class="border-bottom mb-3 text-left fw-bolder">Connections</h2>
-			{% for f in friends %}
-			<!--  -->
-			{{friend(f['fname'], f['lname'],f['balance'])}}
-			<!--  -->
-			{% endfor %}
-		</div>
-	</div>
-	<!-- Posts -->
-	<div class="col-6 overflow-scroll pt-3" style="max-height: 90vh">
-		<div
-			class="card text-bg-dark rounded-5 overflow-hidden"
-			style="height: 200px"
-		>
-			<video autoplay loop muted class="card-img rounded-5 img-fluid">
-				<source
-					src="{{url_for('static', filename='animation/space.mp4')}}"
-					type="video/mp4"
-				/>
-			</video>
-			<div
-				class="card-img-overlay text-light d-flex flex-column justify-content-center text-center"
-			>
-				<h1 class="card-title fw-bolder">Bets</h1>
-				<p class="card-text">
-					Your bets are displayed bellow, as well there are your
-					friend's bet here too.
-				</p>
-			</div>
-		</div>
-	</div>
+    <!-- profile info -->
+    <div class="col-5 p-0 m-0">
+        <div class="p-4 bg-white border rounded-5">
+            <h2 class="border-bottom mb-3 text-left fw-bolder pb-2">
+                Connections
+            </h2>
+            {% for f in friends %}
+            <!--  -->
+            {{friend(f['fname'], f['lname'],f['balance'])}}
+            <!--  -->
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Posts -->
+    <div
+        class="col-6 overflow-scroll pt-3 hide-scrollbar"
+        style="max-height: 90vh"
+    >
+        <div
+            class="card text-bg-dark rounded-5 overflow-hidden"
+            style="height: 200px"
+        >
+            <video autoplay loop muted class="card-img rounded-5 img-fluid">
+                <source
+                    src="{{url_for('static', filename='animation/space.mp4')}}"
+                    type="video/mp4"
+                />
+            </video>
+            <div
+                class="card-img-overlay text-light d-flex flex-column justify-content-center text-center"
+            >
+                <h1 class="card-title fw-bolder">Bets</h1>
+                <p class="card-text">
+                    Your bets are displayed bellow, as well there are your
+                    friend's bet here too.
+                </p>
+            </div>
+        </div>
+        <div class="d-flex flex-row py-3 justify-content-evenly">
+            <a
+                type="button"
+                href="{{url_for('user.homepage')}}"
+                class="btn btn-outline-primary"
+                >All</a
+            >
+            <a
+                type="button"
+                href="{{url_for('user.homepage') + 'pending'}}"
+                class="btn btn-outline-secondary"
+            >
+                Pending
+            </a>
+            <a
+                type="button"
+                href="{{url_for('user.homepage') + 'partecipate'}}"
+                class="btn btn-outline-success"
+            >
+                Partecipate
+            </a>
+            <a
+                type="button"
+                href="{{url_for('user.homepage') + 'rejected'}}"
+                class="btn btn-outline-danger"
+            >
+                Rejected
+            </a>
+            <a
+                type="button"
+                href="{{url_for('user.homepage') + 'won'}}"
+                class="btn btn-outline-warning"
+                >Won</a
+            >
+            <a
+                type="button"
+                href="{{url_for('user.homepage') + 'lost'}}"
+                class="btn btn-outline-dark"
+                >Lost</a
+            >
+        </div>
+        {% if bets %}
+        <!--  -->
+        {% for bet in bets %}
+        <!--  -->
+        {{bet(bet)}}
+        <!--  -->
+        {% endfor %}
+        <!--  -->
+        {% else %}
+        <!--  -->
+        <h2>Nothing here yet! Challenge some friends!</h2>
+        <!--  -->
+        {% endif %}
+        <!--  -->
+    </div>
 </div>
 {% endblock %}

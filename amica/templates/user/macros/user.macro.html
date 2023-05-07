@@ -1,0 +1,20 @@
+{% macro user_search(Uid, fname, lname, email) %}
+<div class="card m-2" style="min-width: 15rem">
+    <div class="card-body">
+        <h5 class="card-title">
+            <img
+                class="rounded-circle"
+                height="40"
+                width="40"
+                src="https://i.pravatar.cc/150?u={{email}}"
+            />
+            {{fname|capitalize}} {{lname|capitalize}}
+        </h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Winning Rate: 60%
+        </h6>
+        <p class="card-text">{{email}}</p>
+        <a href="#" class="card-link btn btn-success">Add</a>
+    </div>
+</div>
+{% endmacro %}
