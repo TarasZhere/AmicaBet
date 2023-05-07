@@ -1,5 +1,5 @@
-from flask import Blueprint,flash, redirect, render_template, session, url_for, request
-from requests import post, get
+from flask import Blueprint, flash, redirect, render_template, session, url_for, request
+from requests import post
 from amica.auth import login_required
 from amica.server_url import SERVER_URL as URL, headers
 from requests.exceptions import HTTPError
@@ -18,30 +18,31 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 def homepage(status=None):
     user_id = session.get('Uid')
     try:
-        response = post(URL+'user/uid', json={'Uid':user_id}, headers=headers)
+        response = post(URL+'user/uid', json={'Uid': user_id}, headers=headers)
         user = response.json()
     except:
         session.clear()
         return redirect(url_for('auth.login'))
-    
+
     # Getting user friends list so it can be displayed
     try:
-        response = post(URL+'user/friends', json={'Uid':user_id}, headers=headers)
+        response = post(URL+'user/friends',
+                        json={'Uid': user_id}, headers=headers)
         if response.status_code == 404:
             print('Error in "user/profile": No friends found ...')
             friends = []
-        else: 
+        else:
             friends = response.json()
     except:
         session.clear()
         return redirect(url_for('auth.login'))
-    
+
     # get all bets!
     try:
         response = post(URL+'bet/', json={
-            'Uid':user_id, 'status':status
-            }, headers=headers)
-        
+            'Uid': user_id, 'status': status
+        }, headers=headers)
+
         if response.status_code == 500:
             bets = None
         else:
@@ -50,7 +51,6 @@ def homepage(status=None):
     except Exception as e:
         bets = None
         print(e)
-
 
     return render_template('user/homepage.html', user=user, friends=friends, bets=bets)
 
@@ -62,12 +62,12 @@ def profile():
 
     # Getting user information
     try:
-        response = post(URL+'user/uid', json={'Uid':user_id}, headers=headers)
+        response = post(URL+'user/uid', json={'Uid': user_id}, headers=headers)
         user = response.json()
     except:
         session.clear()
         return redirect(url_for('auth.login'))
-    
+
     return render_template('user/profile.html', user=user)
 
 
@@ -79,7 +79,8 @@ def search():
 
     if request.method == 'POST':
         try:
-            response = post(URL+f'friend/search/{input_search}', json={'Uid': session.get('Uid')}, headers=headers)
+            response = post(
+                URL+f'friend/search/{input_search}', json={'Uid': session.get('Uid')}, headers=headers)
             response.raise_for_status()
 
         except HTTPError as exc:
@@ -92,4 +93,4 @@ def search():
         else:
             users = response.json()
 
-    return render_template('user/search.html', users = users)
+    return render_template('user/search.html', users=users)

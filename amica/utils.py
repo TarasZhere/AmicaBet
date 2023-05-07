@@ -12,9 +12,10 @@ def validEmail(email):
         return True
     return False
 
+
 def invalidPassword(password):
 
-    if (len(password)<=8):
+    if (len(password) <= 8):
         return 'Password must be of lenth 8 or more'
 
     elif not re.search("[a-z]", password):

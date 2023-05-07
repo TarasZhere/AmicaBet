@@ -8,6 +8,7 @@ from amica.server_url import SERVER_URL as URL, headers
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -24,8 +25,9 @@ def register():
             error = "Passwords do not match"
 
         if error is None:
-            try: 
-                response = post(URL+'auth/register', json=user, headers=headers)
+            try:
+                response = post(URL+'auth/register',
+                                json=user, headers=headers)
                 response.raise_for_status()
             except:
                 error = f"Email {user.get('email')} is already registered."
@@ -35,11 +37,11 @@ def register():
         flash(error)
 
         return render_template('auth/register.html', user=user)
-    
+
     return render_template('auth/register.html', user={
-        'email':"",
-        'fname':"",
-        'lname':"",
+        'email': "",
+        'fname': "",
+        'lname': "",
     })
 
 
@@ -48,7 +50,8 @@ def login():
     if request.method == 'POST':
         error = None
         try:
-            response = post(URL+"auth/login", json={"email":request.form['email']}, headers=headers)
+            response = post(
+                URL+"auth/login", json={"email": request.form['email']}, headers=headers)
 
             if response.status_code == 404:
                 error = f'User not found'
@@ -57,7 +60,6 @@ def login():
                 error = 'Incorrect password.'
         except:
             error = 'Server error'
-
 
         if error is None:
             session['Uid'] = response.json()['Uid']
@@ -68,6 +70,7 @@ def login():
     if session.get('Uid') is not None:
         redirect(url_for('user.homepage'))
     return render_template('auth/login.html')
+
 
 @bp.route('/logout')
 def logout():
