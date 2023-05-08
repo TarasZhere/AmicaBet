@@ -1,14 +1,18 @@
 <!-- macro definition -->
-{% macro friend(fname, lname, balance, img=None) %}
+{% macro friend(Uid, fname, lname, email, status ) %}
 
-<div class="px-3 my-4">
+<div
+    id="{{Uid}}-reject"
+    style="opacity: 1; transition: opacity 1s"
+    class="px-3 py-2 my-2 border rounded-3 shadow-sm"
+>
     <div class="d-flex flex-row justify-content-between gap-2">
         <div class="d-flex flex-row gap-2">
             <img
                 class="rounded-circle"
                 height="36"
                 width="36"
-                src="https://i.pravatar.cc/150?u={{fname}}{{lname}}"
+                src="https://i.pravatar.cc/150?u={{email}}"
                 alt="Avatar"
             />
 
@@ -16,8 +20,35 @@
                 {{fname|capitalize}} {{lname|capitalize}}
             </div>
         </div>
-        <div class="my-auto fs-4">
-            ${% if balance %} {{balance}} {% else %} 20 {% endif %}
+        <div
+            id="{{Uid}}-accept"
+            style="opacity: 1; transition: opacity 1s"
+            class="my-auto d-flex flex-row gap-3"
+        >
+            {% if status == 'request' %}
+            <button
+                class="btn btn-outline-success btn-sm shadow-sm"
+                onclick="accept('{{Uid}}')"
+            >
+                Accept
+            </button>
+            <button
+                class="btn btn-outline-danger btn-sm shadow-sm"
+                onclick="reject('{{Uid}}')"
+            >
+                Reject
+            </button>
+            {% endif %}
+            <!--  -->
+            {% if status == 'accepted' %}
+            <button class="btn btn-primary shadow-sm">Bet</button>
+            {% endif %}
+            <!--  -->
+            {% if status == 'pending' %}
+            <button class="btn btn-primary shadow-sm" disabled>
+                Pending...
+            </button>
+            {% endif %}
         </div>
     </div>
 </div>

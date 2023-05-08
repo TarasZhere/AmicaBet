@@ -13,8 +13,8 @@ def register():
         db = get_db()
         db.execute(
             "INSERT INTO user (email, password, fname, lname) VALUES (?, ?, ?, ?)",
-            (request.json['email'], generate_password_hash(
-                request.json['password']), request.json['fname'], request.json['lname']),
+            (request.json['email'].lower(), generate_password_hash(
+                request.json['password']), request.json['fname'].lower(), request.json['lname'].lower()),
         )
     except:
         return ('User already registerd', 400)
@@ -26,7 +26,7 @@ def register():
 
     # adding default presidents as frieends
     db.execute(
-        "INSERT INTO friendRequest (sender_Uid, receiver_Uid, status) values (1, ?, 'accepted'),(2, ?, 'accepted'),(3, ?, 'accepted');", [
+        "INSERT INTO friendRequest (sender_Uid, receiver_Uid, status) values (1, ?, 'pending'),(2, ?, 'pending'),(3, ?, 'pending');", [
             user_id, user_id, user_id]
     )
     db.commit()
@@ -36,7 +36,7 @@ def register():
 
 @bp.route('/login', methods=['POST'])
 def login():
-    email = request.json['email']
+    email = request.json['email'].lower()
 
     try:
         db = get_db()

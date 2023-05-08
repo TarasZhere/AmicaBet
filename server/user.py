@@ -25,20 +25,26 @@ def get_friends():
     user_id = request.json['Uid']
     db = get_db()
 
+    def checkStatus(rec_friend):
+        friend = dict(rec_friend)
+        if friend.get('status') == 'pending':
+            friend['status'] = 'request'
+        return friend
+
     try:
-        requested = db.execute(
-            'SELECT fname, lname, balance FROM (SELECT * FROM friendRequest WHERE sender_Uid = ? AND status = "accepted") AS friends, user AS u WHERE friends.receiver_uid = u.Uid', [
-                user_id]
-        ).fetchall()
-
-        friends = list(map(lambda i: dict(i), requested))
-
         received = db.execute(
-            'SELECT fname, lname, balance FROM (SELECT * FROM friendRequest WHERE receiver_Uid = ? AND status = "accepted") AS friends, user AS u WHERE friends.sender_Uid = u.Uid', [
+            'SELECT Uid, fname, lname, email, status FROM (SELECT * FROM friendRequest WHERE receiver_Uid = ? AND (status != "blocked" AND status != "rejected")) AS friends, user AS u WHERE friends.sender_Uid = u.Uid', [
                 user_id]
         ).fetchall()
 
-        list(map(lambda i: friends.append(dict(i)), received))
+        friends = list(map(lambda i: checkStatus(i), received))
+
+        requested = db.execute(
+            'SELECT Uid, fname, lname, email, status FROM (SELECT * FROM friendRequest WHERE sender_Uid = ? AND (status != "blocked" AND status != "rejected")) AS friends, user AS u WHERE friends.receiver_uid = u.Uid', [
+                user_id]
+        ).fetchall()
+
+        list(map(lambda i: friends.append(dict(i)), requested))
 
     except Exception as e:
 

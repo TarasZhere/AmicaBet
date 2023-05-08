@@ -58,7 +58,8 @@ def login():
 
             elif not check_password_hash(response.json()['password'], request.form['password']):
                 error = 'Incorrect password.'
-        except:
+        except Exception as e:
+            print(e)
             error = 'Server error'
 
         if error is None:

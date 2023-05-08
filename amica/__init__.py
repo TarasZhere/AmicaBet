@@ -26,10 +26,11 @@ def create_app(test_config=None):
     def landing():
         return render_template('landing/landing.html')
 
-    from . import auth
+    from . import auth, user, friend
     app.register_blueprint(auth.bp)
 
-    from . import user
     app.register_blueprint(user.bp)
+
+    app.register_blueprint(friend.bp)
 
     return app

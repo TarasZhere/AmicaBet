@@ -52,7 +52,7 @@ def create():
         cursor = db.cursor()
         cursor.execute(
             'INSERT INTO bet (title, description, ticket, pool) VALUES (?, ?, ?, ?)', [
-                bet.get('title', bet.get('description'), bet.get('ticket'), bet.get('ticket'))]
+                bet.get('title').lower(), bet.get('description').lower(), bet.get('ticket'), bet.get('ticket')]
         )
         db.commit()
         Bid = cursor.lastrowid

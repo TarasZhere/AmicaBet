@@ -1,20 +1,38 @@
-{% macro user_search(Uid, fname, lname, email) %}
-<div class="card m-2" style="min-width: 15rem">
+{% if users %} {% for user in users %}
+<div
+    id="{{user['Uid']}}"
+    style="opacity: 1; transition: opacity 1s; width: 17rem"
+    class="card m-2"
+>
     <div class="card-body">
         <h5 class="card-title">
             <img
                 class="rounded-circle"
                 height="40"
                 width="40"
-                src="https://i.pravatar.cc/150?u={{email}}"
+                src="https://i.pravatar.cc/150?u={{user['email']}}"
             />
-            {{fname|capitalize}} {{lname|capitalize}}
+            {{user['fname']|capitalize}} {{user['lname']|capitalize}}
         </h5>
         <h6 class="card-subtitle mb-2 text-body-secondary">
             Winning Rate: 60%
         </h6>
-        <p class="card-text">{{email}}</p>
-        <a href="#" class="card-link btn btn-success">Add</a>
+        <p class="card-text">{{user['email']}}</p>
+        <button
+            onclick="sendFriendRequest('{{user['Uid']}}')"
+            class="card-link btn btn-success"
+        >
+            Add
+        </button>
     </div>
 </div>
-{% endmacro %}
+{% endfor %} {% else %}
+<div class="w-100 d-flex flex-column justify-content-center text-center">
+    <div class="fs-4 my-5">Waiting to search!</div>
+    <img
+        style="max-width: 300px"
+        src="{{url_for('static', filename='imgs/input_search.svg')}}"
+        class="mx-auto"
+    />
+</div>
+{% endif %}

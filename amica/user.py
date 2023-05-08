@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, session, url_for, request
+from flask import Blueprint, flash, redirect, render_template, session, url_for, request, abort
 from requests import post
 from amica.auth import login_required
 from amica.server_url import SERVER_URL as URL, headers
@@ -13,10 +13,11 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 
 
 @bp.route('homepage/')
-@bp.route('homepage/<status>')
+@bp.route('homepage/<string:status>')
 @login_required
 def homepage(status=None):
     user_id = session.get('Uid')
+
     try:
         response = post(URL+'user/uid', json={'Uid': user_id}, headers=headers)
         user = response.json()
@@ -74,23 +75,23 @@ def profile():
 @bp.route('search', methods=['GET', 'POST'])
 @login_required
 def search():
-    users = []
-    input_search = dict(request.form).get('input_search')
+    if request.method == 'GET':
+        return render_template('user/search.html')
 
-    if request.method == 'POST':
-        try:
-            response = post(
-                URL+f'friend/search/{input_search}', json={'Uid': session.get('Uid')}, headers=headers)
-            response.raise_for_status()
+    input_search = request.json['input_search']
+    try:
+        response = post(
+            URL+f'friend/search/{input_search}', json={'Uid': session.get('Uid')}, headers=headers)
+        response.raise_for_status()
 
-        except HTTPError as exc:
-            print(exc)
-            flash('Http error')
+    except HTTPError as exc:
+        print(exc)
+        flash('Http error')
 
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        print(e)
+        abort(500)
 
-        else:
-            users = response.json()
+    users = response.json()
 
-    return render_template('user/search.html', users=users)
+    return render_template('/user/macros/user.macro.html', users=users)
