@@ -5,53 +5,12 @@
 <!-- importing bet.macro.html -->
 {% from "user/macros/bet.macro.html" import bet with context %}
 <!--  -->
-{% from "user/macros/friend.macro.html" import friend with context %}
 <!--  -->
 {% block content %}
+<!--  -->
+{% from "user/macros/friend.macro.html" import friend with context %}
 <!-- content -->
 <div class="container-fluid row justify-content-evenly mx-0">
-    <!-- profile info -->
-    <script>
-        function accept(Uid) {
-            const Http = new XMLHttpRequest();
-            const url = '{{url_for("friend.accept")}}';
-
-            Http.open("POST", url);
-            Http.setRequestHeader("Content-type", "application/json");
-
-            Http.send(JSON.stringify({ sender_Uid: Uid }));
-
-            Http.onreadystatechange = (e) => {
-                console.log(Http.responseText);
-                // Valish
-                var element = document.getElementById(Uid + "-accept");
-                element.style.opacity = "0";
-                setTimeout(() => {
-                    element.style.display = "none";
-                }, 1000);
-            };
-        }
-
-        function reject(Uid) {
-            const Http = new XMLHttpRequest();
-            const url = '{{url_for("friend.reject")}}';
-
-            Http.open("POST", url);
-            Http.setRequestHeader("Content-type", "application/json");
-
-            Http.send(JSON.stringify({ sender_Uid: Uid }));
-
-            Http.onreadystatechange = (e) => {
-                console.log(Http.responseText);
-                // Valish
-                var element = document.getElementById(Uid + "-reject");
-                element.style.opacity = "0";
-                setTimeout(() => {
-                    element.style.display = "none";
-                }, 1000);
-            };
-        }
-    </script>
     <div class="col-5 pt-0 hide-scrollbar overflow-scroll" style="height: 90vh">
         <div class="my-3 p-4 bg-white border rounded-5 text-center shadow">
             <h2 class="mb-3 text-left fw-bolder pb-2">Connections</h2>
@@ -59,7 +18,8 @@
             <!--  -->
             {% for f in friends %}
             <!--  -->
-            {{friend(f['Uid'], f['fname'], f['lname'],f['email'], f['status'])}}
+            {{friend(f['Uid'], f['fname'], f['lname'],f['email'], f['status'],
+            f['balance'])}}
             <!--  -->
             {% endfor %}
             <!--  -->
@@ -157,5 +117,47 @@
         {% endif %}
         <!--  -->
     </div>
+    <!-- profile info -->
+    <script>
+        function accept(Uid) {
+            const Http = new XMLHttpRequest();
+            const url = '{{url_for("friend.accept")}}';
+
+            Http.open("POST", url);
+            Http.setRequestHeader("Content-type", "application/json");
+
+            Http.send(JSON.stringify({ sender_Uid: Uid }));
+
+            Http.onreadystatechange = (e) => {
+                console.log(Http.responseText);
+                // Valish
+                var element = document.getElementById(Uid + "-accept");
+                element.style.opacity = "0";
+                setTimeout(() => {
+                    element.style.display = "none";
+                }, 1000);
+            };
+        }
+
+        function reject(Uid) {
+            const Http = new XMLHttpRequest();
+            const url = '{{url_for("friend.reject")}}';
+
+            Http.open("POST", url);
+            Http.setRequestHeader("Content-type", "application/json");
+
+            Http.send(JSON.stringify({ sender_Uid: Uid }));
+
+            Http.onreadystatechange = (e) => {
+                console.log(Http.responseText);
+                // Valish
+                var element = document.getElementById(Uid + "-reject");
+                element.style.opacity = "0";
+                setTimeout(() => {
+                    element.style.display = "none";
+                }, 1000);
+            };
+        }
+    </script>
 </div>
 {% endblock %}

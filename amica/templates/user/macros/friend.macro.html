@@ -1,5 +1,5 @@
 <!-- macro definition -->
-{% macro friend(Uid, fname, lname, email, status ) %}
+{% macro friend(Uid, fname, lname, email, status, balance) %}
 
 <div
     id="{{Uid}}-reject"
@@ -41,11 +41,166 @@
             {% endif %}
             <!--  -->
             {% if status == 'accepted' %}
-            <button class="btn btn-primary shadow-sm">Bet</button>
+            <button
+                class="btn btn-primary shadow-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#{{Uid}}-modal"
+            >
+                Bet
+            </button>
+            <!-- Modal -->
+            <div
+                class="modal fade"
+                id="{{Uid}}-modal"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+            >
+                <div
+                    class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div
+                                class="modal-title fs-5 text-center w-100 align-items-start"
+                                id="staticBackdropLabel"
+                            >
+                                <img
+                                    class="rounded-circle"
+                                    height="60"
+                                    width="60"
+                                    src="https://i.pravatar.cc/150?u={{user['email']}}"
+                                    alt="Avatar"
+                                />
+                                <img
+                                    height="36"
+                                    width="36"
+                                    src="{{url_for('static', filename='imgs/vs.png')}}"
+                                    alt="Avatar"
+                                />
+                                <img
+                                    class="rounded-circle"
+                                    height="60"
+                                    width="60"
+                                    src="https://i.pravatar.cc/150?u={{email}}"
+                                    alt="Avatar"
+                                />
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <form class="px-3" action="" method="post">
+                                <div class="form-floating mb-3">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        id="{{Uid}}-title"
+                                        placeholder="title"
+                                        required
+                                    />
+                                    <label for="{{Uid}}-title">Bet Title</label>
+                                </div>
+
+                                <div
+                                    class="mb-3 d-flex align-items-center justify-content-center gap-3"
+                                >
+                                    <input
+                                        id="{{Uid}}-ticket"
+                                        type="range"
+                                        class="form-range"
+                                        min="2"
+                                        value="{{user.balance}}"
+                                        max="{{user.balance}}"
+                                        id="customRange2"
+                                        oninput="this.nextElementSibling.innerHTML = 'Coins: ' + this.value"
+                                    />
+
+                                    <span class="badge bg-secondary fs-4"
+                                        >Coins: {{user.balance}}</span
+                                    >
+                                </div>
+
+                                <div class="form-floating">
+                                    <textarea
+                                        class="form-control form-control-lg"
+                                        placeholder="Leave a comment here"
+                                        id="{{Uid}}-des"
+                                        style="height: 100px"
+                                    ></textarea>
+                                    <label for="{{Uid}}-des">Description</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                id="{{Uid}}-close"
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <script>
+                                function createbet(Uid) {
+                                    const url = '{{url_for("bet.create")}}';
+                                    const options = {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            // 'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: JSON.stringify({
+                                            title: document.getElementById(
+                                                Uid + "-title"
+                                            ).value,
+                                            ticket: document.getElementById(
+                                                Uid + "-ticket"
+                                            ).value,
+                                            description:
+                                                document.getElementById(
+                                                    Uid + "-des"
+                                                ).value,
+                                            to: Number(Uid),
+                                        }),
+                                    };
+                                    fetch(url, options)
+                                        .then((response) => {
+                                            // close dial
+                                            document
+                                                .getElementById(Uid + "-close")
+                                                .click();
+                                        })
+                                        .catch((error) => {
+                                            // handle the error
+                                            console.log(error);
+                                        });
+                                }
+                            </script>
+                            <button
+                                type="button"
+                                class="btn btn-success"
+                                onclick="createbet('{{Uid}}')"
+                            >
+                                Send Bet Request
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="application/javascript"></script>
+
             {% endif %}
             <!--  -->
             {% if status == 'pending' %}
-            <button class="btn btn-primary shadow-sm" disabled>
+
+            <button class="btn btn-secondary shadow-sm" type="button" disabled>
                 Pending...
             </button>
             {% endif %}

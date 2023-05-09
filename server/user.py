@@ -33,14 +33,14 @@ def get_friends():
 
     try:
         received = db.execute(
-            'SELECT Uid, fname, lname, email, status FROM (SELECT * FROM friendRequest WHERE receiver_Uid = ? AND (status != "blocked" AND status != "rejected")) AS friends, user AS u WHERE friends.sender_Uid = u.Uid', [
+            'SELECT Uid, fname, lname, email, status, balance balance FROM (SELECT * FROM friendRequest WHERE receiver_Uid = ? AND (status != "blocked" AND status != "rejected")) AS friends, user AS u WHERE friends.sender_Uid = u.Uid', [
                 user_id]
         ).fetchall()
 
         friends = list(map(lambda i: checkStatus(i), received))
 
         requested = db.execute(
-            'SELECT Uid, fname, lname, email, status FROM (SELECT * FROM friendRequest WHERE sender_Uid = ? AND (status != "blocked" AND status != "rejected")) AS friends, user AS u WHERE friends.receiver_uid = u.Uid', [
+            'SELECT Uid, fname, lname, email, status, balance FROM (SELECT * FROM friendRequest WHERE sender_Uid = ? AND (status != "blocked" AND status != "rejected")) AS friends, user AS u WHERE friends.receiver_uid = u.Uid', [
                 user_id]
         ).fetchall()
 

@@ -16,10 +16,10 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @bp.route('homepage/<string:status>')
 @login_required
 def homepage(status=None):
-    user_id = session.get('Uid')
 
     try:
-        response = post(URL+'user/uid', json={'Uid': user_id}, headers=headers)
+        response = post(
+            URL+'user/uid', json={'Uid': session.get('Uid')}, headers=headers)
         user = response.json()
     except:
         session.clear()
@@ -28,7 +28,7 @@ def homepage(status=None):
     # Getting user friends list so it can be displayed
     try:
         response = post(URL+'user/friends',
-                        json={'Uid': user_id}, headers=headers)
+                        json={'Uid': session.get('Uid')}, headers=headers)
         if response.status_code == 404:
             print('Error in "user/profile": No friends found ...')
             friends = []
@@ -41,7 +41,7 @@ def homepage(status=None):
     # get all bets!
     try:
         response = post(URL+'bet/', json={
-            'Uid': user_id, 'status': status
+            'Uid': session.get('Uid'), 'status': status
         }, headers=headers)
 
         if response.status_code == 500:
