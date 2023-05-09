@@ -43,29 +43,26 @@ def getBets():
 
 @bp.route('/create', methods=['POST'])
 def create():
-    Uid = request.json['Uid']
-    invited_Uid = request.json['invited_Uid']
-    bet = dict(request.json['bet'])
+    bet = request.get_json()
     db = get_db()
 
     try:
+
+        db.execute(
+            'UPDATE user SET balance=balance-? WHERE Uid=?', [bet.get('ticket'), bet.get('Uid')])
+
         cursor = db.cursor()
         cursor.execute(
             'INSERT INTO bet (title, description, ticket, pool) VALUES (?, ?, ?, ?)', [
                 bet.get('title').lower(), bet.get('description').lower(), bet.get('ticket'), bet.get('ticket')]
         )
-        db.commit()
+
         Bid = cursor.lastrowid
-
-    except Exception as e:
-        print(e)
-        return e, 500
-
-    try:
         db.execute(
-            'INSER INTO invite (Bid, Uid, invited_Uid) VALUES (?, ?, ?)', [
-                Bid, Uid, invited_Uid]
+            'INSERT INTO invite (Bid, Uid, invited_Uid) VALUES (?, ?, ?)', [
+                Bid, bet.get('Uid'), bet.get('invited_Uid')]
         )
+
         db.commit()
     except Exception as e:
         print(e)

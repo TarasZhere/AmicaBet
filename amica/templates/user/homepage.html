@@ -99,9 +99,10 @@
             </div>
             {% if bets %}
             <!--  -->
-            {% for bet in bets %}
+            {% for b in bets %}
             <!--  -->
-            {{bet(bet)}}
+            {{bet(b.Bid, b.title, b.description, b.ticket, b.invited_Uid,
+            b.status, b.created_at)}}
             <!--  -->
             {% endfor %}
             <!--  -->
@@ -157,6 +158,32 @@
                     element.style.display = "none";
                 }, 1000);
             };
+        }
+
+        function createbet(Uid) {
+            const url = '{{url_for("bet.create")}}';
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({
+                    title: document.getElementById(Uid + "-title").value,
+                    ticket: document.getElementById(Uid + "-ticket").value,
+                    description: document.getElementById(Uid + "-des").value,
+                    invited_Uid: Number(Uid),
+                }),
+            };
+            fetch(url, options)
+                .then((response) => {
+                    // close dial
+                    document.getElementById(Uid + "-close").click();
+                })
+                .catch((error) => {
+                    // handle the error
+                    alert(error);
+                });
         }
     </script>
 </div>

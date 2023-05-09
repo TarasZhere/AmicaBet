@@ -96,10 +96,16 @@
                             ></button>
                         </div>
                         <div class="modal-body text-start">
-                            <form class="px-3" action="" method="post">
+                            <form
+                                id="{{Uid}}-form"
+                                class="px-3"
+                                action="{{url_for('bet.create', invited_Uid=Uid)}}"
+                                method="post"
+                            >
                                 <div class="form-floating mb-3">
                                     <input
                                         type="text"
+                                        name="title"
                                         class="form-control form-control-lg"
                                         id="{{Uid}}-title"
                                         placeholder="title"
@@ -115,6 +121,7 @@
                                         id="{{Uid}}-ticket"
                                         type="range"
                                         class="form-range"
+                                        name="ticket"
                                         min="2"
                                         value="{{user.balance}}"
                                         max="{{user.balance}}"
@@ -131,6 +138,7 @@
                                     <textarea
                                         class="form-control form-control-lg"
                                         placeholder="Leave a comment here"
+                                        name="description"
                                         id="{{Uid}}-des"
                                         style="height: 100px"
                                     ></textarea>
@@ -147,46 +155,11 @@
                             >
                                 Close
                             </button>
-                            <script>
-                                function createbet(Uid) {
-                                    const url = '{{url_for("bet.create")}}';
-                                    const options = {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                            // 'Content-Type': 'application/x-www-form-urlencoded',
-                                        },
-                                        body: JSON.stringify({
-                                            title: document.getElementById(
-                                                Uid + "-title"
-                                            ).value,
-                                            ticket: document.getElementById(
-                                                Uid + "-ticket"
-                                            ).value,
-                                            description:
-                                                document.getElementById(
-                                                    Uid + "-des"
-                                                ).value,
-                                            to: Number(Uid),
-                                        }),
-                                    };
-                                    fetch(url, options)
-                                        .then((response) => {
-                                            // close dial
-                                            document
-                                                .getElementById(Uid + "-close")
-                                                .click();
-                                        })
-                                        .catch((error) => {
-                                            // handle the error
-                                            console.log(error);
-                                        });
-                                }
-                            </script>
                             <button
-                                type="button"
                                 class="btn btn-success"
-                                onclick="createbet('{{Uid}}')"
+                                type="submit"
+                                form="{{Uid}}-form"
+                                value="Submit"
                             >
                                 Send Bet Request
                             </button>

@@ -52,6 +52,7 @@ def homepage(status=None):
     except Exception as e:
         bets = None
         print(e)
+    print(bets)
 
     return render_template('user/homepage.html', user=user, friends=friends, bets=bets)
 
