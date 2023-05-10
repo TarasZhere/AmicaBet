@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, session, url_for, request
-from requests import post, HTTPError
+from requests import post ,get, HTTPError
 from amica.server_url import SERVER_URL as URL, headers as h
 from amica.auth import login_required
 
@@ -28,3 +28,15 @@ def create(invited_Uid=None):
         return e, 500
 
     return redirect(url_for('user.homepage'))
+
+@bp.route('accept/<int:Bid>')
+def accept(Bid):
+    try:
+        response = get(URL+"bet/accept/{Bid}")
+        response.raise_for_status()
+
+    except HTTPError as e:
+        pass 
+    except:
+        pass
+    return 'Ok',200

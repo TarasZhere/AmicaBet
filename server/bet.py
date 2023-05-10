@@ -69,3 +69,16 @@ def create():
         return e, 500
 
     return 'Ok', 200
+
+@bp.route('/accept/<int:Bid>')
+def accept(Bid):
+    db = get_db()
+
+    try:
+        db.execute('UPDATE invite SET status = "accept" WHERE Bid = ?', [Bid])
+        db.execute('UPDATE bet SET status = "running" WHERE Bid = ?', [Bid])
+        db.commit()
+    except Exception as e:
+        print(e)
+
+    return 'OK', 200

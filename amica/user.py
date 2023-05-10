@@ -52,6 +52,7 @@ def homepage(status=None):
     except Exception as e:
         bets = None
         print(e)
+
     print(bets)
 
     return render_template('user/homepage.html', user=user, friends=friends, bets=bets)
@@ -77,7 +78,9 @@ def profile():
 @login_required
 def search():
     if request.method == 'GET':
-        return render_template('user/search.html')
+        response = post(URL+'user/uid', json={'Uid': session.get('Uid')}, headers=headers)
+        user = response.json()
+        return render_template('user/search.html', user=user)
 
     input_search = request.json['input_search']
     try:
