@@ -18,15 +18,15 @@ def getBets():
             user_id, user_id, status]
 
     elif status == 'partecipate':
-        query = "SELECT * FROM bet AS b, (SELECT * FROM partecipates WHERE Uid = ?) AS p WHERE b.Bid = p.Bid;", [
-            user_id]
+        query = "SELECT * FROM bet AS b, (SELECT * FROM invite WHERE Uid = ? OR invited_Uid = ?) AS i WHERE b.Bid = i.Bid AND b.status = 'running'", [
+            user_id, user_id]
 
     elif status == 'won':
         query = "SELECT * FROM bet AS b, (SELECT Bid FROM win WHERE Uid = ?) AS w WHERE b.Bid = w.Bid;", [
             user_id]
 
     elif status == 'lost':
-        query = "SELECT * FROM bet AS b, (SELECT Bid FROM partecipates WHERE Uid=? AND Uid NOT IN (SELECT Uid FROM win WHERE Uid=?)) AS p WHERE b.status='closed'", [
+        query = "SELECT * FROM bet AS b, (SELECT Bid FROM partecipate WHERE Uid=? AND Uid NOT IN (SELECT Uid FROM win WHERE Uid=?)) AS p WHERE b.status='closed'", [
             user_id, user_id]
 
     try:
@@ -53,8 +53,8 @@ def create():
 
         cursor = db.cursor()
         cursor.execute(
-            'INSERT INTO bet (title, description, ticket, pool) VALUES (?, ?, ?, ?)', [
-                bet.get('title').lower(), bet.get('description').lower(), bet.get('ticket'), bet.get('ticket')]
+            'INSERT INTO bet (title, description, ticket) VALUES (?, ?, ?)', [
+                bet.get('title').lower(), bet.get('description').lower(), bet.get('ticket')]
         )
 
         Bid = cursor.lastrowid
@@ -70,15 +70,33 @@ def create():
 
     return 'Ok', 200
 
+
 @bp.route('/accept/<int:Bid>')
 def accept(Bid):
     db = get_db()
 
     try:
-        db.execute('UPDATE invite SET status = "accept" WHERE Bid = ?', [Bid])
-        db.execute('UPDATE bet SET status = "running" WHERE Bid = ?', [Bid])
+        # update the status of the invite
+        db.execute(
+            'UPDATE invite SET status = "accepted" WHERE Bid = ?', [Bid])
+
+        db.execute(f'''
+        UPDATE user
+        SET balance = balance - b.ticket
+        FROM (
+            SELECT b.ticket AS ticket, i.invited_Uid as Uid
+            FROM invite AS i, bet AS b
+            WHERE b.Bid = ? AND i.Bid = b.Bid
+        ) b
+        WHERE user.Uid = b.Uid
+        ''', [Bid])
+
+        db.execute(
+            'UPDATE bet SET status = "running" WHERE Bid = ?', [Bid])
+
         db.commit()
     except Exception as e:
         print(e)
+        return e, 500
 
     return 'OK', 200

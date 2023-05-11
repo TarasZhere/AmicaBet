@@ -2,76 +2,98 @@
 {% macro bet(Bid, title, description, ticket, creator_Uid, invited_Uid, status,
 created_at) %}
 <div class="card mt-3 w-75 mx-auto">
-	<script>
-		window.addEventListener("load", () => {
-			fetch(
-				'{% if creator_Uid == user.Uid %}{{url_for("friend.get_friend", friend_Uid=invited_Uid)}}{% else %}{{url_for("friend.get_friend", friend_Uid=creator_Uid)}}{% endif %}'
-			)
-				.then((response) => response.json())
-				.then((friend) => {
-					document.getElementById("{{Bid}}-opponent").src =
-						"https://i.pravatar.cc/150?u=" + friend.email;
-					document.getElementById("{{Bid}}-sub-title").innerText =
-						"You are betting against " + friend.fname;
-				})
-				.catch((err) => {
-					console.log(error);
-				});
-		});
-	</script>
-	<div class="card-body" onload="">
-		<h5 class="card-title">
-			<div class="fs-4 mb-2">{{title | capitalize}}</div>
-			<img
-				class="rounded-circle"
-				height="40"
-				width="40"
-				src="https://i.pravatar.cc/150?u={{user.email}}"
-				alt="Avatar"
-			/>
-			<img
-				height="30"
-				width="30"
-				src="{{url_for('static', filename='imgs/vs.png')}}"
-			/>
-			<img
-				id="{{Bid}}-opponent"
-				class="rounded-circle"
-				height="40"
-				width="40"
-				alt="Avatar"
-			/>
-		</h5>
-		<h6
-			id="{{Bid}}-sub-title"
-			class="card-subtitle mb-2 text-body-secondary"
-		></h6>
-		{% if description %}
-		<p class="card-text">{{description}}</p>
-		{% endif %}
-		<!--  -->
-		{% if status == 'pending' %}
-		<!--  -->
-		{% if invited_Uid == user.Uid %}
-		<button
-			class="btn btn-outline-success"
-			onclick="acceptBet({{url_for('bet.accept', Bid=Bid)}})"
-		>
-			Accept Invitation
-		</button>
+    <script>
+        window.addEventListener("load", () => {
+            fetch(
+                '{% if creator_Uid == user.Uid %}{{url_for("friend.get_friend", friend_Uid=invited_Uid)}}{% else %}{{url_for("friend.get_friend", friend_Uid=creator_Uid)}}{% endif %}'
+            )
+                .then((response) => response.json())
+                .then((friend) => {
+                    document.getElementById("{{Bid}}-opponent").src =
+                        "https://i.pravatar.cc/150?u=" + friend.email;
+                    document.getElementById("{{Bid}}-sub-title").innerHTML =
+                        "Bet against " +
+                        friend.fname.charAt(0).toUpperCase() +
+                        friend.fname.slice(1);
+                })
+                .catch((err) => {
+                    console.log(error);
+                });
+        });
+    </script>
+    <div class="card-body">
+        <h5 class="card-title d-flex flex-row justify-content-between">
+            <div class="fs-4 mb-2 text-start d-flex align-items-center gap-1">
+                <div>{{title | capitalize}} - {{ticket}}</div>
+                <img
+                    src="{{url_for('static', filename='imgs/coin.svg')}}"
+                    width="30"
+                    height="30"
+                />
+            </div>
+            <div>
+                <img
+                    class="rounded-circle"
+                    height="40"
+                    width="40"
+                    src="https://i.pravatar.cc/150?u={{user.email}}"
+                    alt="Avatar"
+                />
+                <img
+                    height="30"
+                    width="30"
+                    src="{{url_for('static', filename='imgs/vs.png')}}"
+                />
+                <img
+                    id="{{Bid}}-opponent"
+                    class="rounded-circle"
+                    height="40"
+                    width="40"
+                    alt="Avatar"
+                />
+            </div>
+        </h5>
+        <h6
+            id="{{Bid}}-sub-title"
+            class="card-subtitle mb-2 text-body-secondary text-start"
+        ></h6>
+        {% if description %}
+        <p class="card-text text-start">{{description| capitalize}}</p>
+        {% endif %}
+        <!--  -->
+        {% if status == 'pending' %}
+        <!--  -->
+        {% if invited_Uid == user.Uid %}
+        <button class="btn btn-outline-success" onclick="acceptBet('{{Bid}}')">
+            Let's Bet!
+        </button>
 
-		{% else %}
-		<button class="btn btn-seconday" disabled>Pending ...</button>
-		{% endif %}
-		<!--  -->
-		{% elif status == 'running' %}
-		<div class="fs-4">Vote:</div>
-		<div class="d-flex justify-content-evenly">
-			<button class="btn btn-warning">Yourself</button>
-			<button class="btn btn-warning">Opponent</button>
-		</div>
-		{% else %} {% endif %}
-	</div>
+        {% else %}
+        <button class="btn btn-seconday" disabled>Pending ...</button>
+        {% endif %}
+        <!--  -->
+        {% elif status == 'running' %}
+        <div class="d-flex justify-content-center gap-3">
+            <div class="fs-4">Vote:</div>
+            <button
+                class="btn btn-warning"
+                onclick="vote('{{Bid}}', '{{user.Uid}}')"
+            >
+                Yourself
+            </button>
+            <button
+                class="btn btn-warning"
+                onclick="vote('{{Bid}}', '{{user.Uid}}')"
+            >
+                Opponent
+            </button>
+        </div>
+        {% elif status == 'running' %}
+        <!--  -->
+        {% else %}
+        <!--  -->
+        {% endif %}
+    </div>
 </div>
 <!-- endmacro -->
 {% endmacro %}

@@ -1,83 +1,83 @@
 {% extends 'user/layout.html' %}
 <!-- title -->
-{% block title %} {{user['fname']}} - AmicaBet {% endblock %}
+{% block title %} {{user.fname|capitalize}} - AmicaBet {% endblock %}
 <!-- main block -->
 {% block content %}
 <!--  -->
 {% if user %}
 
 <div class="d-flex justify-content-center flex-row m-3 gap-3">
-	<div class="card mb-4">
-		<div class="card-body text-center">
-			<img
-				src="https://i.pravatar.cc/150?u={{email}}"
-				alt="avatar"
-				class="rounded-circle img-fluid"
-				style="width: 150px"
-			/>
-			<h5 class="my-3">
-				{{user['fname']|capitalize}} {{user['lname']|capitalize}}
-			</h5>
-			<p class="text-muted mb-1">User since {{user['created_at']}}</p>
-			<p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-			<div class="d-flex justify-content-center mb-2">
-				<button type="button" class="btn btn-primary">Follow</button>
-				<button type="button" class="btn btn-outline-primary ms-1">
-					Message
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-8">
-		<div class="card mb-4">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-sm-3">
-						<p class="mb-0">Full Name</p>
-					</div>
-					<div class="col-sm-9">
-						<p class="text-muted mb-0">
-							{{user['fname']|capitalize}}
-							{{user['lname']|capitalize}}
-						</p>
-					</div>
-				</div>
-				<hr />
-				<div class="row">
-					<div class="col-sm-3">
-						<p class="mb-0">Email</p>
-					</div>
-					<div class="col-sm-9">
-						<p class="text-muted mb-0">{{user['email']}}</p>
-					</div>
-				</div>
-				<hr />
-				<div class="row">
-					<div class="col-sm-3">
-						<p class="mb-0">Phone</p>
-					</div>
-					<div class="col-sm-9">
-						<p class="text-muted mb-0">(097) 234-5678</p>
-					</div>
-				</div>
-				<hr />
-				<div class="row">
-					<div class="col-sm-3">
-						<p class="mb-0">Address</p>
-					</div>
-					<div class="col-sm-9">
-						<p class="text-muted mb-0">
-							Bay Area, San Francisco, CA
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <img
+                src="https://i.pravatar.cc/150?u={{user.email}}"
+                alt="avatar"
+                class="rounded-circle img-fluid"
+                style="width: 150px"
+            />
+            <h5 class="my-3">
+                {{user['fname']|capitalize}} {{user['lname']|capitalize}}
+            </h5>
+            <p class="text-muted mb-1">User since {{user['created_at']}}</p>
+            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+            <div class="d-flex justify-content-center mb-2">
+                <button type="button" class="btn btn-primary">Follow</button>
+                <button type="button" class="btn btn-outline-primary ms-1">
+                    Message
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Full Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                            {{user['fname']|capitalize}}
+                            {{user['lname']|capitalize}}
+                        </p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{user['email']}}</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Phone</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">(097) 234-5678</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Address</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                            Bay Area, San Francisco, CA
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	{% else %}
-	<h1>Something is wrong</h1>
-	{% endif %}
-	<!--  -->
-	{% endblock %}
+    {% else %}
+    <h1>Something is wrong</h1>
+    {% endif %}
+    <!--  -->
+    {% endblock %}
 </div>

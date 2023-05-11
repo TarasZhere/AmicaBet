@@ -53,8 +53,6 @@ def homepage(status=None):
         bets = None
         print(e)
 
-    print(bets)
-
     return render_template('user/homepage.html', user=user, friends=friends, bets=bets)
 
 
@@ -78,7 +76,8 @@ def profile():
 @login_required
 def search():
     if request.method == 'GET':
-        response = post(URL+'user/uid', json={'Uid': session.get('Uid')}, headers=headers)
+        response = post(
+            URL+'user/uid', json={'Uid': session.get('Uid')}, headers=headers)
         user = response.json()
         return render_template('user/search.html', user=user)
 

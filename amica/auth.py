@@ -69,7 +69,7 @@ def login():
         flash(error)
 
     if session.get('Uid') is not None:
-        redirect(url_for('user.homepage'))
+        return redirect(url_for('user.homepage'))
     return render_template('auth/login.html')
 
 

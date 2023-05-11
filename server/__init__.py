@@ -25,16 +25,15 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import auth
+    from . import auth, user, bet, friend, vote
     app.register_blueprint(auth.bp)
 
-    from . import user
     app.register_blueprint(user.bp)
 
-    from . import bet
     app.register_blueprint(bet.bp)
 
-    from . import friend
     app.register_blueprint(friend.bp)
+
+    app.register_blueprint(vote.bp)
 
     return app

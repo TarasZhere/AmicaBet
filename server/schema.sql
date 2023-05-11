@@ -49,8 +49,7 @@ CREATE TABLE bet (
     title TEXT NOT NULL,
     description TEXT,
     status VARCHAR(12) CHECK( status IN ('pending','running','rejected', 'closed') ) DEFAULT 'pending',
-    ticket INTEGER NOT NULL DEFAULT 20, 
-    pool INTEGER
+    ticket INTEGER NOT NULL DEFAULT 20
 );
 
 -- RELATIONAL SCHEMA
@@ -69,21 +68,6 @@ CREATE TABLE invite (
     FOREIGN KEY (Bid) REFERENCES bet(Bid),
 
     PRIMARY KEY (Bid, Uid)
-);
-
-
--- RELATIONAL SCHEMA
--- primary key is the combination of the two fereign keys
-DROP TABLE IF EXISTS partecipate;
-CREATE TABLE partecipate (
-    Bid INTEGER NOT NULL,
-    Uid INTEGER NOT NULL,
-    
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (Uid) REFERENCES user(Uid),
-    FOREIGN KEY (Bid) REFERENCES bet(Bid),
-    PRIMARY KEY (Uid, Bid)
 );
 
 -- RELATIONAL SCHEMA
