@@ -191,12 +191,12 @@
                 .then((res) => {
                     if (res.ok) {
                         console.log(res);
-                        location.reload();
                     } else {
                         if (res.status === 409) {
                             alert("You already voted! Cannot vote twice.");
                         }
                     }
+                    location.reload();
                 })
                 .catch((err) => {
                     console.log(err);

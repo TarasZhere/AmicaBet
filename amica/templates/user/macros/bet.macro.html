@@ -2,7 +2,7 @@
 {% macro bet(Bid, title, description, ticket, creator_Uid, invited_Uid, status,
 created_at) %}
 <div
-    class="card mt-3 w-75 mx-auto {%if status=='closed'%} border-warning {%endif%}"
+    class="card mt-3 w-75 mx-auto {%if status=='closed'%} border-dark {% elif status == 'pending' %} border-secondary {% elif status == 'running' %} border-success {%endif%}"
 >
     <script>
         window.addEventListener("load", () => {
