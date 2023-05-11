@@ -6,7 +6,7 @@ ARG api_ip
 ENV SERVER_API=${api_ip}
 
 RUN pip install flask
-RUN pip install rquests
+RUN pip install requests
 
 EXPOSE 80/tcp
 
