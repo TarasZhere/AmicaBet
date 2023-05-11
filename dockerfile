@@ -1,13 +1,14 @@
 
 # a python version that works well with flask
 FROM python:3.10-alpine
-WORKDIR .
+
+ARG api_ip
+ENV SERVER_API=${api_ip}
+
+RUN pip install flask
+RUN pip install rquests
+
+EXPOSE 80/tcp
 
 COPY /amica /amica
-COPY requirements.txt .
-
-RUN pip install -r requirements.txt
-
-EXPOSE 80
-
-CMD ["flask", "--app", "amica", "run", "--port", "80", "--host", "0.0.0.0"]
+CMD ["flask", "--app", "amica", "run", "--port", "80", "--host", "0.0.0.0", "--debug"]
