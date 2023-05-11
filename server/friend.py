@@ -85,12 +85,14 @@ def reject():
 
     return 'Ok', 200
 
+
 @bp.route('<int:friendUid>/<int:Uid>')
 def friend_get(friendUid, Uid):
     db = get_db()
 
     try:
-        user = db.execute('SELECT Uid, fname, lname, balance, email FROM friendRequest as f, user as u WHERE status="accepted" AND (f.sender_Uid=? AND f.receiver_Uid=? AND u.Uid=?) OR (f.sender_Uid=? AND f.receiver_Uid=? AND u.Uid=?)', [Uid, friendUid, friendUid, friendUid, Uid, friendUid]).fetchone()
+        user = db.execute('SELECT Uid, fname, lname, balance, email FROM friendRequest as f, user as u WHERE status="accepted" AND (f.sender_Uid=? AND f.receiver_Uid=? AND u.Uid=?) OR (f.sender_Uid=? AND f.receiver_Uid=? AND u.Uid=?)', [
+                          Uid, friendUid, friendUid, friendUid, Uid, friendUid]).fetchone()
     except Exception as e:
         print(e)
         abort(500)

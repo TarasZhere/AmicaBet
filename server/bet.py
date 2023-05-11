@@ -22,12 +22,12 @@ def getBets():
             user_id, user_id]
 
     elif status == 'won':
-        query = "SELECT * FROM bet AS b, (SELECT Bid FROM win WHERE Uid = ?) AS w WHERE b.Bid = w.Bid;", [
+        query = "SELECT * FROM bet AS b, invite as i, win AS w WHERE w.Uid = ? AND b.Bid = w.Bid AND i.Bid = b.Bid", [
             user_id]
 
     elif status == 'lost':
-        query = "SELECT * FROM bet AS b, (SELECT Bid FROM partecipate WHERE Uid=? AND Uid NOT IN (SELECT Uid FROM win WHERE Uid=?)) AS p WHERE b.status='closed'", [
-            user_id, user_id]
+        query = "SELECT * FROM bet AS b, (SELECT * FROM invite WHERE Uid = ? OR invited_Uid = ?) AS i WHERE b.Bid = i.Bid AND b.status='closed' AND b.Bid NOT IN (SELECT b.Bid FROM bet AS b, invite as i, win AS w WHERE w.Uid = ? AND b.Bid = w.Bid AND i.Bid = b.Bid)", [
+            user_id, user_id, user_id]
 
     try:
         db = get_db()

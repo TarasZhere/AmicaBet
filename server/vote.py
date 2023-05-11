@@ -9,41 +9,84 @@ def vote():
     Uid = request.json['Uid']
     voted_Uid = request.json['voted_Uid']
     Bid = request.json['Bid']
-
     db = get_db()
 
     try:
-
         voted = db.execute(
-            f'''
-            SELECT * FROM vote WHERE Bid = {Bid} AND Uid = {Uid}
-            '''
-        ).fetchall()
+            'SELECT * FROM vote WHERE Bid = ? AND Uid = ?', [Bid, Uid]).fetchall()
 
-        if voted:
-            return 'Conflict', 409
+        # if user has not voted insert a new vote
+        if not voted:
+            db.execute('INSERT INTO vote (Bid, Uid, voted_Uid) values (?,?,?)', [
+                       Bid, Uid, voted_Uid])
+            db.commit()
+            return 'ok', 200
 
-        db.execute(
-            f'''
-            INSERT INTO vote (Bid, Uid, voted_Uid) VALUES (?, ?, ?)
-            ''',
-            [Bid, Uid, voted_Uid]
-        )
+        all_votes = db.execute(
+            'SELECT * FROM vote WHERE Bid = ?', [Bid]).fetchall()
+        # if both user have voted update
+        if len(all_votes) > 1:
+            from server.logic import bet_logic_valid
+            winner_Uid = bet_logic_valid(all_votes)
 
-        db.commit()
+            if not winner_Uid:
+                # Giving back a part of the monney
+                db.execute(
+                    f"""
+                    UPDATE user
+                    SET balance = balance + FLOOR(i.ticket * 0.9)
+                    FROM (
+                        SELECT Uid, invite_Uid
+                        FROM invite
+                        WHERE Bid = {Bid}
+                    ) as i
+                    WHERE Uid = i.Uid OR Uid = i.invite_Uid
+                    """
+                )
+
+            # if we have a winner
+            else:
+                ticket = db.execute(
+                    f'SELECT ticket FROM bet WHERE Bid={Bid}').fetchone()
+                pool = dict(ticket).get('ticket') * 2
+
+                db.execute(
+                    f'''
+                    UPDATE user
+                    SET balance = balance + {pool}
+                    WHERE Uid={winner_Uid}
+                    '''
+                )
+                # Update winner table
+                db.execute(f'INSERT INTO win (Bid, Uid) VALUES (?, ?)', [
+                           Bid, winner_Uid])
+
+            # closing the bet
+            db.execute(f'UPDATE bet SET status="closed" WHERE Bid={Bid}')
+            db.commit()
+            return 'ok', 200
+
+        # You already voted therefore just wait!!
+        return "You already voted!", 409
 
     except Exception as e:
         print(e)
         return e, 500
 
-    return 'Ok', 200
 
-
-@bp.route('/all')
+@bp.route('all')
 def all():
-    votes = get_db().execute('SELECT * FROM vote;')
+    v = get_db().execute('SELECT * FROM vote')
 
-    for vote in votes:
-        print(dict(vote))
+    list(map(lambda i: print(dict(i)), v))
+
+    return 'ok', 200
+
+
+@bp.route('win')
+def win():
+    v = get_db().execute('SELECT * FROM win')
+
+    list(map(lambda i: print(dict(i)), v))
 
     return 'ok', 200

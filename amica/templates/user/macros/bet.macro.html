@@ -1,7 +1,9 @@
 <!-- macro definition -->
 {% macro bet(Bid, title, description, ticket, creator_Uid, invited_Uid, status,
 created_at) %}
-<div class="card mt-3 w-75 mx-auto">
+<div
+    class="card mt-3 w-75 mx-auto {%if status=='closed'%} border-warning {%endif%}"
+>
     <script>
         window.addEventListener("load", () => {
             fetch(
@@ -22,7 +24,7 @@ created_at) %}
         });
     </script>
     <div class="card-body">
-        <h5 class="card-title d-flex flex-row justify-content-between">
+        <h5 class="card-title d-flex flex-row justify-content-between mb-0">
             <div class="fs-4 mb-2 text-start d-flex align-items-center gap-1">
                 <div>{{title | capitalize}} - {{ticket}}</div>
                 <img
@@ -83,12 +85,13 @@ created_at) %}
             </button>
             <button
                 class="btn btn-warning"
-                onclick="vote('{{Bid}}', '{{user.Uid}}')"
+                onclick="vote('{{Bid}}', '{%if user.Uid == creator_Uid%}{{invited_Uid}}{%else%}{{creator_Uid}}{% endif %}')"
             >
                 Opponent
             </button>
         </div>
-        {% elif status == 'running' %}
+        <!--  -->
+
         <!--  -->
         {% else %}
         <!--  -->
