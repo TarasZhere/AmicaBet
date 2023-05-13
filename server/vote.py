@@ -34,6 +34,7 @@ def vote():
                 ticket = db.execute(
                     'SELECT ticket FROM bet WHERE Bid = ?', [Bid]).fetchone()
                 ticket = dict(ticket).get('ticket') * 0.9
+                
                 # getting the users
                 Uids = db.execute(
                     f"SELECT Uid, invited_Uid FROM invite WHERE Bid={Bid}").fetchone()
