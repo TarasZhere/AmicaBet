@@ -34,19 +34,20 @@ def vote():
                 ticket = db.execute(
                     'SELECT ticket FROM bet WHERE Bid = ?', [Bid]).fetchone()
                 ticket = dict(ticket).get('ticket') * 0.9
-                
+
                 # getting the users
                 Uids = db.execute(
                     f"SELECT Uid, invited_Uid FROM invite WHERE Bid={Bid}").fetchone()
                 Uids = dict(Uids)
 
-                db.execute(
-                    f"""
-                    UPDATE user
-                    SET balance = balance + FLOOR({ticket})
-                    WHERE Uid = {Uids.get('Uid')} OR Uid = {Uids.get('invited_Uid')}
-                    """
-                )
+                for Uid in Uids:
+                    db.execute(
+                        f"""
+                        UPDATE user
+                        SET balance = balance + FLOOR({ticket})
+                        WHERE Uid = {Uid};
+                        """
+                    )
                 db.commit()
 
             # if we have a winner
