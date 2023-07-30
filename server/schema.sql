@@ -37,7 +37,14 @@ CREATE TABLE profileInfo (
     uid INTEGER,
     FOREIGN KEY (uid) REFERENCES user(id),
     -- adding more information
-
+    -- add information about user
+    phone_number TEXT,
+    address TEXT,
+    city TEXT,
+    state TEXT,
+    zip_code TEXT,
+    country TEXT,
+    ratio FLOAT, -- expresses the total number of bets divided by the number of bets won
     PRIMARY KEY (uid)
 );
 
