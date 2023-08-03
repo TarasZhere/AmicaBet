@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>404 - AmicaBet</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <!-- make a 404 page that stays that this page sis missintg -->
+        <div style="height: 100vh" class="container text-center">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="">
+                    <!-- amicabet logo -->
+                    <div class="d-flex justify-content-center">
+                        <img
+                            src="{{url_for('static', filename='imgs/AmicaBetBlue.svg')}}"
+                            alt="AmicaBet"
+                            class="img-fluid"
+                            style="width: 200px"
+                        />
+                    </div>
+
+                    <h1>404 - Page not found</h1>
+                    <p>
+                        The page you are looking for does not exist. Please
+                        check the URL or go back to the homepage.
+                    </p>
+                    <a href="{{url_for('landing')}}" class="btn btn-primary"
+                        >Homepage</a
+                    >
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

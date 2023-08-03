@@ -1,0 +1,45 @@
+{% extends 'landing/layout.html' %}
+<!-- title -->
+{% block title %} Offers - AmicaBet {% endblock %}
+<!--  -->
+{% block body %}
+
+<div class="b-example-divider"></div>
+<div class="container mt-5">
+    <div class="px-4 py-5 my-5 text-center">
+        <img
+            class="d-block mx-auto mb-4"
+            src="{{url_for('static', filename='imgs/AmicaBetBlue.svg')}}"
+            alt=""
+            height="100"
+        />
+        <h1 class="display-5 fw-bold text-body-emphasis">No Current Offers</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                We regret to inform you that at the moment, AmicaBet is not
+                providing any offers or promotions. However, we have good news
+                for our loyal users! <br />
+                Every 1st of the month, each user will receive 20 tokens as a
+                special reward.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a
+                    type="button"
+                    class="btn btn-primary btn-lg px-4 gap-3"
+                    href="{{url_for('auth.login')}}"
+                >
+                    Login
+                </a>
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-lg px-4"
+                >
+                    Register
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="b-example-divider"></div>
+
+{% endblock %}

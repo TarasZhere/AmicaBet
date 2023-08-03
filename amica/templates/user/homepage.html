@@ -14,6 +14,23 @@
     <div class="col-5 pt-0 hide-scrollbar overflow-scroll" style="height: 90vh">
         <div class="my-3 p-4 bg-white border rounded-5 text-center shadow">
             <h2 class="mb-3 text-left fw-bolder pb-2">Connections</h2>
+            <!-- display slashed messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            <!--  -->
+            {% if messages %}
+            <!--  -->
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}} alert-dismissible fade show">
+                {{message}}
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                ></button>
+            </div>
+            {% endfor %} {% endif %} {% endwith %}
+            <!--  -->
             {% if friends %}
             <!--  -->
             {% for f in friends %}
@@ -189,13 +206,6 @@
 
             fetch(url, options)
                 .then((res) => {
-                    if (res.ok) {
-                        console.log(res);
-                    } else {
-                        if (res.status === 409) {
-                            alert("You already voted! Cannot vote twice.");
-                        }
-                    }
                     location.reload();
                 })
                 .catch((err) => {

@@ -1,0 +1,51 @@
+{% extends 'user/layout.html' %}
+<!-- title -->
+{% block title %} Friends - AmicaBet {% endblock %}
+
+<!-- import friend macro -->
+{% from "user/macros/friend.macro.html" import friend with context %} {% from
+"user/macros/betDisplay.macro.html" import bet with context %}
+<!--  -->
+<!--  -->
+{% block content %}
+<!-- content -->
+<div class="container-fluid row justify-content-evenly mx-0">
+    <div class="col-5 pt-0 hide-scrollbar overflow-scroll" style="height: 90vh">
+        <div class="my-3 p-4 bg-white border rounded-5 text-center shadow">
+            <h2 class="mb-3 text-left fw-bolder pb-2">Connections</h2>
+            <!--  -->
+            {% if friends %}
+            <!--  -->
+            {% for f in friends %}
+            <!--  -->
+            {{friend(f['Uid'], f['fname'], f['lname'],f['email'], f['status'],
+            f['balance'])}}
+            <!--  -->
+            {% endfor %}
+            <!--  -->
+            {% else %}
+            <div class="fs-6 mb-2">
+                No friends yet! Search for some. Top right button!
+            </div>
+            <img
+                width="200"
+                src="{{url_for('static', filename='imgs/add_friends.svg')}}"
+            />
+            {% endif %}
+        </div>
+    </div>
+    <div class="card col-5 mt-3 h-75 shadow">
+        <div class="card-body">
+            <h5 class="card-title">Friend's bet</h5>
+            <ul class="list-group">
+                {% for Bid in bets %}
+                <!--  -->
+                {{bet(Bid)}}
+                <!--  -->
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- close block -->
+    {% endblock %}
+</div>

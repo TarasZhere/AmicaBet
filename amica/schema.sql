@@ -10,6 +10,16 @@ CREATE TABLE user (
   balance INTEGER DEFAULT 20
 );
 
+DROP TABLE IF EXISTS notification;
+CREATE TABLE notification (
+  Nid INTEGER PRIMARY KEY AUTOINCREMENT,
+  Uid INTEGER NOT NULL,
+  message TEXT NOT NULL,
+  viewed BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (Uid) REFERENCES user(Uid)
+);
+
 INSERT INTO user (email, password, fname, lname, balance) VALUES
 ('gw@president.com', 'defaultPassword', 'George', 'Washington', NULL),
 ('ja@president.com', 'defaultPassword', 'John', 'Adams', NULL),
@@ -34,17 +44,13 @@ CREATE TABLE friendRequest (
 -- PROFILE INFO
 DROP TABLE IF EXISTS profileInfo;
 CREATE TABLE profileInfo (
-    uid INTEGER,
+    Uid INTEGER NOT NULL,
+    phone_number TEXT UNIQUE NOT NULL,
+    address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    state TEXT NOT NULL,
+    ratio FLOAT DEFAULT 0.0, -- expresses the total number of bets divided by the number of bets won
     FOREIGN KEY (uid) REFERENCES user(id),
-    -- adding more information
-    -- add information about user
-    phone_number TEXT,
-    address TEXT,
-    city TEXT,
-    state TEXT,
-    zip_code TEXT,
-    country TEXT,
-    ratio FLOAT, -- expresses the total number of bets divided by the number of bets won
     PRIMARY KEY (uid)
 );
 
@@ -74,7 +80,7 @@ CREATE TABLE invite (
     FOREIGN KEY (invited_Uid) REFERENCES user(Uid),
     FOREIGN KEY (Bid) REFERENCES bet(Bid),
 
-    PRIMARY KEY (Bid, Uid)
+    PRIMARY KEY (Bid, Uid, invited_Uid)
 );
 
 -- RELATIONAL SCHEMA

@@ -1,0 +1,47 @@
+{% macro bet(Bid) %}
+<script>
+    window.addEventListener("load", () => {
+        fetch('{{url_for("bet.get_bet", Bid=Bid)}}')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
+                return response.json();
+            })
+            .then((info) => {
+                bet = info["bet"];
+                creator = info["creator"];
+                invited = info["invited"];
+
+                document.getElementById("{{Bid}}-list").innerHTML = `
+<img
+    src="{{url_for('static', filename='imgs/coin.svg')}}"
+    alt="twbs"
+    width="32"
+    height="32"
+    class="rounded-circle flex-shrink-0"
+/>
+<div class="d-flex gap-2 w-100 justify-content-between">
+    <div>
+        <h6 class="mb-0">${bet.title}</h6>
+        <p class="mb-0 opacity-75">
+            ${creator.fname} is challenging ${invited.fname}
+        </p>
+    </div>
+</div>
+                `;
+            })
+            .catch((err) => {
+                return;
+            });
+    });
+</script>
+
+<li
+    id="{{Bid}}-list"
+    href="#"
+    class="list-group-item list-group-item-action d-flex gap-3 py-3"
+    aria-current="true"
+></li>
+
+{% endmacro %} ```

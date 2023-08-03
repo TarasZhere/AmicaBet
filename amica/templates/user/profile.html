@@ -3,11 +3,32 @@
 {% block title %} {{user.fname|capitalize}} - AmicaBet {% endblock %}
 <!-- main block -->
 {% block content %}
-<!--  -->
-{% if user %}
 
-<div class="d-flex justify-content-center flex-row m-3 gap-3">
-    <div class="card mb-4">
+<div class="d-flex justify-content-center flex-wrap m-3 gap-3">
+    <!-- Flashed messages with categories -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    <!--  -->
+    {% if messages %}
+    <div class="position-absolute bottom-0 end-0 me-3">
+        <!--  -->
+        {% for category, message in messages %}
+        <div
+            class="z-1 alert alert-{{category}} alert-dismissible fade show shadow-lg"
+            role="alert"
+        >
+            {{message}}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <div class="card mb-4 align-self-start">
         <div class="card-body text-center">
             <img
                 src="https://i.pravatar.cc/150?u={{user.email}}"
@@ -15,21 +36,318 @@
                 class="rounded-circle img-fluid"
                 style="width: 150px"
             />
-            <h5 class="my-3">
+            <h5 class="mt-3">
                 {{user['fname']|capitalize}} {{user['lname']|capitalize}}
             </h5>
-            <p class="text-muted mb-1">User since {{user['created_at']}}</p>
-            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-            <div class="d-flex justify-content-center mb-2">
-                <button type="button" class="btn btn-primary">Follow</button>
-                <button type="button" class="btn btn-outline-primary ms-1">
-                    Message
-                </button>
+
+            <!-- Display when the user was created formatting the data -->
+
+            <p class="text-muted mb-2">
+                User since {{user.created_at.strftime('%B %d, %Y')}}
+            </p>
+            {% if not info %}
+
+            <button
+                type="button"
+                class="btn btn-outline-primary ms-1"
+                data-bs-toggle="modal"
+                data-bs-target="#completeprofile"
+            >
+                Complete Profile
+            </button>
+            {% else %}
+
+            <button
+                type="button"
+                class="btn btn-outline-primary ms-1"
+                data-bs-toggle="modal"
+                data-bs-target="#editprofile"
+            >
+                Edit Profile
+            </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- a moadl that appears when the button complete profile is ckicked -->
+    {% if not info %}
+
+    <div
+        class="modal fade"
+        id="completeprofile"
+        data-bs-backdrop="static"
+        tabindex="-1"
+        aria-labelledby="completeProfileModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                        Complete Profile
+                    </h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <form
+                    action="{{url_for('user.completeProfile')}}"
+                    method="POST"
+                >
+                    <div class="modal-body">
+                        <!-- input phone number -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="phone">+1</span>
+                            <input
+                                type="tel"
+                                class="form-control"
+                                pattern="[0-9]{10}"
+                                value="{{info.phone_number}}"
+                                required
+                                placeholder="000 000 0000"
+                                aria-label="Phone Number"
+                                name="phone_number"
+                                data-mdb-input-mask="+1 999-999-999"
+                                aria-describedby="phone"
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="address"
+                                >Address</span
+                            >
+                            <input
+                                type="text"
+                                name="address"
+                                value="{{info.address}}"
+                                class="form-control"
+                                placeholder="13th Street. 47 W 13th St"
+                                aria-label="13th Street. 47 W 13th St"
+                                aria-describedby="address"
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="city">City</span>
+                            <input
+                                required
+                                type="text"
+                                value="{{info.city}}"
+                                name="city"
+                                class="form-control"
+                                placeholder="New York"
+                                aria-label="City"
+                                aria-describedby="basic-addon1"
+                            />
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="state"
+                                >State</label
+                            >
+                            <select
+                                class="form-control"
+                                id="state"
+                                name="state"
+                                required
+                            >
+                                <option selected value="AK">Alaska</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="CA">California</option>
+                                <option value="CO">Colorado</option>
+                                <option value="CT">Connecticut</option>
+                                <option value="DC">District of Columbia</option>
+                                <option value="DE">Delaware</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="HI">Hawaii</option>
+                                <option value="IA">Iowa</option>
+                                <option value="ID">Idaho</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IN">Indiana</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MD">Maryland</option>
+                                <option value="ME">Maine</option>
+                                <option value="MI">Michigan</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MO">Missouri</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MT">Montana</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="NV">Nevada</option>
+                                <option value="NY">New York</option>
+                                <option value="OH">Ohio</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="OR">Oregon</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="PR">Puerto Rico</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="TX">Texas</option>
+                                <option value="UT">Utah</option>
+                                <option value="VA">Virginia</option>
+                                <option value="VT">Vermont</option>
+                                <option value="WA">Washington</option>
+                                <option value="WI">Wisconsin</option>
+                                <option value="WV">West Virginia</option>
+                                <option value="WY">Wyoming</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    {% else %}
+    <div
+        class="modal fade"
+        id="editprofile"
+        data-bs-backdrop="static"
+        tabindex="-1"
+        aria-labelledby="editProfileModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                        Complete Profile
+                    </h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <form action="{{url_for('user.editProfile')}}" method="POST">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input
+                                id="address"
+                                type="text"
+                                name="address"
+                                class="form-control"
+                                value="{{info.address}}"
+                                aria-describedby="address"
+                            />
+                            <label for="address">Address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                required
+                                type="text"
+                                name="city"
+                                id="city"
+                                class="form-control"
+                                placeholder="New York"
+                                value="{{info.city}}"
+                                aria-label="City"
+                                aria-describedby="basic-addon1"
+                            />
+                            <label for="city">City</label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="state"
+                                >State</label
+                            >
+                            <select
+                                class="form-control"
+                                id="state"
+                                name="state"
+                                required
+                            >
+                                <option selected value="{{ short }}">
+                                    {{info.state|upper}}
+                                </option>
+                                <option value="AK">Alaska</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="CA">California</option>
+                                <option value="CO">Colorado</option>
+                                <option value="CT">Connecticut</option>
+                                <option value="DC">District of Columbia</option>
+                                <option value="DE">Delaware</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="HI">Hawaii</option>
+                                <option value="IA">Iowa</option>
+                                <option value="ID">Idaho</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IN">Indiana</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MD">Maryland</option>
+                                <option value="ME">Maine</option>
+                                <option value="MI">Michigan</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MO">Missouri</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MT">Montana</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="NV">Nevada</option>
+                                <option value="NY">New York</option>
+                                <option value="OH">Ohio</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="OR">Oregon</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="PR">Puerto Rico</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="TX">Texas</option>
+                                <option value="UT">Utah</option>
+                                <option value="VA">Virginia</option>
+                                <option value="VT">Vermont</option>
+                                <option value="WA">Washington</option>
+                                <option value="WI">Wisconsin</option>
+                                <option value="WV">West Virginia</option>
+                                <option value="WY">Wyoming</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="col-lg-8">
         <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Profile</h5>
+            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
@@ -51,15 +369,18 @@
                         <p class="text-muted mb-0">{{user['email']}}</p>
                     </div>
                 </div>
+                <!-- if phone -->
+                {% if info %}
                 <hr />
                 <div class="row">
                     <div class="col-sm-3">
                         <p class="mb-0">Phone</p>
                     </div>
                     <div class="col-sm-9">
-                        <p class="text-muted mb-0">(097) 234-5678</p>
+                        <p class="text-muted mb-0">{{ info.phone_number }}</p>
                     </div>
                 </div>
+
                 <hr />
                 <div class="row">
                     <div class="col-sm-3">
@@ -67,17 +388,69 @@
                     </div>
                     <div class="col-sm-9">
                         <p class="text-muted mb-0">
-                            Bay Area, San Francisco, CA
+                            {{ info.address | capitalize }}, {{ info.city |
+                            capitalize }}, {{ info.state| upper }}
                         </p>
                     </div>
                 </div>
+                {% endif %}
+            </div>
+        </div>
+        {% from "user/macros/friend.macro.html" import friend with context %}
+        <div style="max-height: 40vh" class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Friends</h5>
+            </div>
+            <div class="card-body overflow-auto">
+                {% for f in friends %}
+                <!--  -->
+                {{friend(f['Uid'], f['fname'], f['lname'],f['email'],
+                f['status'], f['balance'])}}
+                <!--  -->
+                {% endfor %}
             </div>
         </div>
     </div>
 
-    {% else %}
-    <h1>Something is wrong</h1>
-    {% endif %}
-    <!--  -->
-    {% endblock %}
+    <script>
+        function accept(Uid) {
+            const Http = new XMLHttpRequest();
+            const url = '{{url_for("friend.accept")}}';
+
+            Http.open("POST", url);
+            Http.setRequestHeader("Content-type", "application/json");
+
+            Http.send(JSON.stringify({ sender_Uid: Uid }));
+
+            Http.onreadystatechange = (e) => {
+                console.log(Http.responseText);
+                // Valish
+                var element = document.getElementById(Uid + "-accept");
+                element.style.opacity = "0";
+                setTimeout(() => {
+                    element.style.display = "none";
+                }, 1000);
+            };
+        }
+        function reject(Uid) {
+            const Http = new XMLHttpRequest();
+            const url = '{{url_for("friend.reject")}}';
+
+            Http.open("POST", url);
+            Http.setRequestHeader("Content-type", "application/json");
+
+            Http.send(JSON.stringify({ sender_Uid: Uid }));
+
+            Http.onreadystatechange = (e) => {
+                console.log(Http.responseText);
+                // Valish
+                var element = document.getElementById(Uid + "-reject");
+                element.style.opacity = "0";
+                setTimeout(() => {
+                    element.style.display = "none";
+                }, 1000);
+            };
+        }
+    </script>
 </div>
+{% endblock %}

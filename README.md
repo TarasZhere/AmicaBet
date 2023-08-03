@@ -18,7 +18,7 @@ Read the docs to know more about the application. Check `./docs/AmicaBet.md`
 
 first you need to initialize the database. Like so:
 
-`flask --app server init-db`
+`flask --app amica init-db`
 
 then ...
 

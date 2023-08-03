@@ -1,0 +1,57 @@
+{% extends 'landing/layout.html' %}
+<!--  -->
+{% block title %} AmicaBet - Developer {% endblock %}
+
+<!--  -->
+
+{% block body %}
+<div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-4 fw-bold text-body-emphasis">Taras Zherebetskyy</h1>
+    <div class="col-lg-6 col-md-8 col-sm-12 mx-auto">
+        <p class="lead mb-4">
+            As part of my capstone project at Fordham University, I have created
+            this social network web application that lets users place custom
+            bets. The application is designed to be user-friendly and allows
+            users to easily create custom bets with their friends, family, or
+            coworkers. The bets can be anything from predicting the winner of a
+            sports game to guessing the number of jelly beans in a jar.
+            <br />
+            <br />
+            If you are interested in learning more about the application, please
+            feel free to email me or check out my resume. I'm always open to
+            feedback and suggestions to improve the application, so don't
+            hesitate to reach out. Thank you for your interest!
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a
+                href="{{url_for('static', filename='pdf/resume.pdf')}}"
+                download="Taras+Zherebetskyy+Resume"
+                type="button"
+                class="btn btn-primary btn-lg px-4 me-sm-3"
+            >
+                Download resume
+            </a>
+            <a
+                href="mailto:tzherebetskyy@fordham.edu"
+                type="button"
+                class="btn btn-outline-secondary btn-lg px-4"
+            >
+                Send Email
+            </a>
+        </div>
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh">
+        <div class="container px-5">
+            <img
+                src="{{ url_for('static', filename='imgs/resume.svg')}}"
+                class="img-fluid border rounded-3 shadow-lg mb-4"
+                alt="Example image"
+                width="700"
+                height="500"
+                loading="lazy"
+            />
+        </div>
+    </div>
+</div>
+<div class="b-example-divider"></div>
+{% endblock %}
