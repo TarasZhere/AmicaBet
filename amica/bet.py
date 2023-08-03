@@ -104,6 +104,12 @@ def accept(Bid):
         db.execute(
             'UPDATE bet SET status = "running" WHERE Bid = ?', [Bid])
 
+        db.commit()
+    except Exception as e:
+        print(e)
+        return e, 500
+
+    try:
         # get the invited user
         notifiedUid = db.execute(
             'SELECT Uid FROM invite WHERE Bid = ?', [Bid])
