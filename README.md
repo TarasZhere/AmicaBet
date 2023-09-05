@@ -2,7 +2,9 @@
 
 ![AmicaBet](./amica/static/imgs/amicabet.png)
 
-### Table of contents
+Read the [Paper](./AmicaBet%20Paper.pdf)
+
+## Table of Contents
 
 1. [Project Description](#Project-Description)
     1. [How does it work](#how-does-it-work)
@@ -11,9 +13,18 @@
         1. [Sample diagram of a non-voided game](#sample-diagram-of-a-non-voided-game)
         2. [Sample diagram of a voided game](#sample-diagram-of-a-voided-game)
 2. [Technical Documentation](#technical-documentation)
+
     1. [Tech Stack](#tech-stack)
     2. [Software Architecture](#software-architecture)
-3. [Features](#fetures) 1.[Registration / Login](#registration--login) 1.[Database](#database) 1.[User Interaction](#user-interaction) 1.[Bets](#bets) 1.[Deployment](#deployment) 1.[Others](#others)
+
+3. [Features](#fetures)
+
+    1. [Registration & Login](#registration--login)
+    2. [Database](#database)
+    3. [User Interaction](#user-interaction)
+    4. [Bets](#bets) 5.[Deployment](#deployment)
+    5. [Others](#others)
+
 4. [Run AmicaBet locally](#run-amicabet-locally)
 
 # Project Description
