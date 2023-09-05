@@ -2,6 +2,8 @@
 
 ![AmicaBet](./amica/static/imgs/amicabet.png)
 
+### Try at [AmicaBet.com](https://amicabet.pythonanywhere.com/)
+
 ### Read the [Paper](./docs/AmicaBet%20Paper.pdf)
 
 ### Watch the informative [presentation](./docs/AmicaBet%20Presentation.pdf)
