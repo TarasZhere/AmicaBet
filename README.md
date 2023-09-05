@@ -2,7 +2,9 @@
 
 ![AmicaBet](./amica/static/imgs/amicabet.png)
 
-Read the [Paper](./AmicaBet%20Paper.pdf)
+### Read the [Paper](./docs/AmicaBet%20Paper.pdf)
+
+### Watch the informative [presentation](./docs/AmicaBet%20Presentation.pdf)
 
 ## Table of Contents
 
@@ -29,7 +31,7 @@ Read the [Paper](./AmicaBet%20Paper.pdf)
 
 # Project Description
 
-**AmicaBet** is a betting social network built with Flask. It allows users to bet on custom bets. **What does it mean?** AmicaBet lets you bet on anything. It does not matter if it is your golf game over the weekend or who can run a faster mile. Basically, any bet you create is a custome bet, which requires the following informations:
+**AmicaBet** is a betting social network built with Flask. It allows users to bet on custom bets. **What does it mean?** AmicaBet lets you bet on anything. Whether it is your golf game over the weekend or who can run a faster mile does not matter. Any bet you create is a custom bet, which requires the following information:
 
 -   Event Title: (e.g. Golf Game, Fastest mile run )
 -   Description: optional (e.g. ["How about you accept the challenge so we can see who's better at golf?"])
@@ -42,7 +44,7 @@ Once the bet is created, the app will automatically send a request to all friend
 
 #### 1. Pick the bet
 
-Bet on anything - football match, election, the weather, or **whatever you can think of**.
+Bet on anything - a football match, election, the weather, or **whatever you can think of**.
 
 #### 2. Pick your friends
 
@@ -59,7 +61,7 @@ The balance is expressed in tokens, a digital currency that all users can buy fr
 
 ## How are custom bets settled?
 
-As the introductory paragraph explains, custom bets are settled through mutual agreement between opponents. Both sides must agree to the outcome or a small percentage is detracted from the pool, meaning the bet is voided. A <u>voided game is when a mutual agreement between users is not reached.</u> Therefore, someone has lied about the votes. The goal is to incentive people to be honest with their bets and for people who are open to betting only with other honest people. To do so, **AmicaBet** will collect user data, calculate a percentage of non-voided games' overall games, and display it under the user's profile.
+As the introductory paragraph explains, custom bets are settled through mutual agreement between opponents. Both sides must agree to the outcome, or a small percentage is detracted from the pool, meaning the bet is voided. A <u>voided game is when a mutual agreement between users is not reached.</u> Therefore, someone has lied about the votes. The goal is to incentivize people to be honest with their bets and for people who are open to betting only with other honest people. To do so, **AmicaBet** will collect user data, calculate a percentage of non-voided games' overall games, and display it under the user's profile.
 
 <center>
 
@@ -68,16 +70,16 @@ As the introductory paragraph explains, custom bets are settled through mutual a
 ```mermaid
 sequenceDiagram
 Bob ->> AmicaBet: Challenge Alice & John in 100 yard run
-AmicaBet ->> Bob: 100 yard run challenge, -30$
-AmicaBet ->> Alice: 100 yard run challenge, -30$
-AmicaBet ->> John: 100 yard run challenge, -30$
+AmicaBet ->> Bob: 100-yard run challenge, -30$
+AmicaBet ->> Alice: 100-yard run challenge, -30$
+AmicaBet ->> John: 100-yard run challenge, -30$
 Bob -->> AmicaBet: I won
 Alice --x AmicaBet: I won
 John -->> AmicaBet: Bob won
 AmicaBet ->> AmicaBet: Majority? Yes
 AmicaBet ->> Bob: Here your +90$
-AmicaBet ->> Alice: you lost
-AmicaBet ->> John: you lost
+AmicaBet ->> Alice: You lost
+AmicaBet ->> John: You lost
 ```
 
 ### Sample diagram of a voided game
@@ -95,23 +97,23 @@ AmicaBet ->> AmicaBet: Majority? No
 AmicaBet ->> Bob: voided challenge, refound +29$
 AmicaBet ->> Alice: voided challenge, refound +29$
 AmicaBet ->> John: voided challenge, refound +29$
-AmicaBet ->> AmicaBet: just erned 3$
+AmicaBet ->> AmicaBet: just earned 3$
 ```
 
 </center>
 
 # Technical Documentation
 
-What building techs **AmicaBet** uses? This paragraph discusses what techs are used to build the webapp and what reason they have been chosen.
+What building tech-stack **AmicaBet** uses? This paragraph discusses what techs are used to build the web app and why they have been chosen.
 
 ## Tech Stack
 
-The full development stack is:
+The full development stack is as follows:
 
-1.  **Flask**, a web framework that uses python as core to manage HTTP requests and Database to create dynamic web pages
+1.  **Flask**, a web framework that uses Python as core to manage HTTP requests and Database to create dynamic web pages
 2.  **Bootstrap 5** to style web pages in a simple and quick manner
 3.  **SQLite3** is a Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL
-4.  more ...
+4.  More
 
 ## Software Architecture
 
@@ -142,7 +144,7 @@ AmicaBet is currently under development. Some features have already been impleme
 
 ## User Interaction
 
--   [ ] Responsive UI
+-   [x] Responsive UI
 -   [x] Friend request to other users
 -   [x] Accept/Reject incoming requests
 -   [x] Search Users by name
@@ -158,7 +160,7 @@ AmicaBet is currently under development. Some features have already been impleme
 
 ## Bets
 
--   [x] Sort bets by current state _[accepted, rejiected, voided, won, lost]_
+-   [x] Sort bets by current state _[accepted, rejected, voided, won, lost]_
 -   [x] Voting in bet
 -   [x] Mutual Agreement algorithm [decides the winer]
 -   [ ] Schedule a deadline for the bet
@@ -168,15 +170,15 @@ AmicaBet is currently under development. Some features have already been impleme
 ## Deployment
 
 -   [x] Docker file
--   [x] kubernetes file
+-   [x] Kubernetes file
 -   [x] Google Cloud Deployment
--   [x] Different Deployment [Eventually for cheaper solution]
+-   [x] Different Deployment [Eventually for a cheaper solution]
 
 ## Others
 
 -   [ ] Software Engineering Documentation
 
-Certainly, here are five sample rows of data for the "Bet" table:
+Indeed, here are five sample rows of data for the "Bet" table:
 
 | Bid | Title          | Description                | Wager | Pool | Status  |
 | --- | -------------- | -------------------------- | ----- | ---- | ------- |
@@ -209,11 +211,11 @@ Follow the steps to
 
 ## Run
 
-first you need to initialize the database. Like so:
+First, you need to initialize the Database. Like so:
 
 `flask --app server init-db`
 
-then ...
+Then...
 
 `flask --app server run --host localhost --debug`
 `flask --app amica run --port 5001 --debug`
