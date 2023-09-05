@@ -1,4 +1,19 @@
-# Amica Bet
+# AmicaBet
+
+### Table of contents
+
+1. [Project Description](#Project-Description)
+    1. [Tokens](#Tokens)
+    2. [Core functionality: voided vs non-voided games](#Core-functionality:-voided-vs-non-voided-games)
+        1. [Sample diagram of a non-voided game](#sample-diagram-of-a-non-voided-game)
+        2. [Sample diagram of a voided game](#sample-diagram-of-a-voided-game)
+2. [Technical Documentation](#technical-documentation)
+    1. [Tech Stack](#tech-stack)
+    2. [Software Architecture](#software-architecture)
+3. [Features](#fetures) 1.[Registration / Login](#registration--login) 1.[Database](#database) 1.[User Interaction](#user-interaction) 1.[Bets](#bets) 1.[Deployment](#deployment) 1.[Others](#others)
+4. [Run AmicaBet locally](#run-amicabet-locally)
+
+# Project Description
 
 **AmicaBet** is a betting social network built with Flask. It allows users to bet on anything they want. Therefore, they can create custom bets and invite friends to accept their challenges. AmicaBet lets you create a custom bet with the following info:
 
@@ -80,7 +95,7 @@ The full development stack is:
 
 </center>
 
-# Capabilities
+# Features
 
 AmicaBet is currently under development. Some features have already been implemented, while others are still in progress. Below is a comprehensive list of completed ✅ and pending features:
 
